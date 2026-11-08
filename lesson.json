@@ -2,193 +2,187 @@
   {
     "slideId": "slide-01",
     "type": "intro",
-    "title": "Los Secretos del Verbo «Quedar»",
-    "subtitle": "Guía práctica de uso coloquial, matices esenciales y expresiones clave en España",
+    "title": "The Verb «Ser» (To Be)",
+    "subtitle": "Essential guide to introductions, identity, origin, and professions in Peninsular Spanish",
     "backgroundImage": "media/madrid_puerta_sol.svg",
-    "badge": "Español Peninsular • Nivel B1-B2",
-    "notes": "Profesor: Iniciar la sesión preguntando a los alumnos qué significa 'quedar' para ellos. Advertir que es uno de los verbos con más acepciones diferentes en el español de España (hacer planes, sobrar, sentar bien/mal la ropa, acordar algo, o permanecer en un lugar con 'quedarse')."
+    "badge": "Spanish A1 • Beginner Level",
+    "notes": "Teacher Notes: Welcome students to Unit 1. Explain that 'Ser' is one of the two Spanish verbs meaning 'to be'. Today we focus on fundamental identity: who you are, where you are from, and what you do."
   },
   {
     "slideId": "slide-02",
     "type": "objectives",
-    "heading": "Objetivos de la Sesión",
-    "leftStaticText": "Hoy en clase seremos capaces de:",
+    "heading": "Lesson Objectives",
+    "leftStaticText": "By the end of today's lesson, you will be able to:",
     "items": [
-      "Diferenciar con precisión entre «quedar» (hacer planes, restar) y «quedarse» (permanecer).",
-      "Proponer planes naturales y concertar citas como un auténtico madrileño («quedar con / en»).",
-      "Opinar sobre cómo sienta la ropa o un peinado usando «quedar bien / mal / genial».",
-      "Conjugar con soltura el presente y pretérito indefinido con pronombre reflexivo («vosotros os quedáis»)."
+      "Introduce yourself and state your name, nationality, and origin using «soy».",
+      "Ask others where they are from using «¿De dónde eres?» and «¿De dónde sois?».",
+      "State your profession and describe key personal characteristics in Spanish.",
+      "Conjugate the irregular verb «ser» across all persons, including the Peninsular «vosotros sois»."
     ],
     "image": "media/spain_cafe.svg",
-    "alt": "Cafetería tradicional con terraza en Madrid",
-    "caption": "Contexto comunicativo: vida social y planes cotidianos en Madrid",
-    "notes": "Profesor: Leer los objetivos con el grupo. Pedir a un voluntario que recuerde la diferencia entre verbos pronominales y no pronominales."
+    "alt": "Outdoor café terrace in Madrid",
+    "caption": "Real-life communicative context: introducing yourself in Spain",
+    "notes": "Teacher Notes: Elicit prior knowledge. Ask if anyone already knows how to say 'I am English' or 'I am Spanish'. Point out that subject pronouns (yo, tú) are frequently dropped in natural spoken Spanish."
   },
   {
     "slideId": "slide-03",
     "type": "one-panel",
-    "heading": "1. Quedar con alguien (Hacer planes y citas)",
+    "heading": "1. Introducing Yourself (Identity & Origin)",
     "panelType": "text",
     "content": {
-      "tag": "Uso Coloquial Principal",
-      "lead": "En España casi nunca se usa «encontrarse con» para citas personales. Se dice siempre «quedar con».",
-      "formula": "Fórmula: Quedar + con + [persona] + para + [actividad] / a las + [hora]",
+      "tag": "Key Beginner Formula",
+      "lead": "In Spanish, we use the verb «ser» to state identity, nationality, and where you are from.",
+      "formula": "Formula: Soy + [Name / Nationality] | Soy de + [City / Country]",
       "dialogue": [
-        "— Oye Javi, ¿quedamos este sábado por la tarde para tomar unas cañas?",
-        "— ¡Venga, hecho! ¿Dónde quedamos?",
-        "— Quedamos a las siete en la estatua del Oso y el Madroño."
+        "— ¡Hola! Soy Mateo y soy de Valencia. ¿Y tú?",
+        "— ¡Hola, Mateo! Yo soy Sophie. Soy de Londres, pero vivo en Madrid.",
+        "— ¡Encantado, Sophie! ¿Eres estudiante?",
+        "— Sí, soy estudiante de español."
       ],
-      "caution": "¡Cuidado! No confundir con 'conocer a alguien' (primera vez) ni 'reunirse' (ámbito laboral o formal)."
+      "caution": "Grammar Tip: Unlike in English, do not use an article (un / una) before professions in Spanish unless qualified by an adjective! Say: «Soy profesor», NOT «Soy un profesor»."
     },
-    "notes": "Profesor: Resaltar que '¿Quedamos?' es la forma estándar e informal más natural de quedar. En Hispanoamérica es más habitual 'verse con' o 'juntarse'."
+    "notes": "Teacher Notes: Drill the distinction between 'Soy español' (nationality) and 'Soy de España' (origin). Highlight the omitted indefinite article before professions."
   },
   {
     "slideId": "slide-04",
     "type": "two-panel",
-    "heading": "2. Contraste Esencial: Quedar vs. Quedarse",
+    "heading": "2. When to Use «Ser»: The DOCTOR Rule",
     "leftPanel": {
       "type": "text",
-      "title": "«Quedar» (Sin pronombre)",
-      "badge": "Acción no reflexiva",
+      "title": "What «Ser» Expresses",
+      "badge": "Permanent & Essential",
       "points": [
-        "Citarse / Concertar plan: «He quedado con Lucía a las 18:00.»",
-        "Estar disponible o restar cantidad: «¿Queda leche en la nevera?» — «No, no queda nada.»",
-        "Ajuste estético / ropa: «Esa camisa te queda como un guante.»",
-        "Llegar a un acuerdo: «¿En qué quedamos entonces?»"
+        "Description & Identity: «Soy alto y sociable.» (I am tall and sociable.)",
+        "Origin & Nationality: «Carmen es de Sevilla. Es española.» (Carmen is from Seville. She is Spanish.)",
+        "Characteristic & Profession: «Marcos es arquitecto.» (Marcos is an architect.)",
+        "Time & Dates: «Son las tres y media. Hoy es martes.» (It is half past three. Today is Tuesday.)"
       ]
     },
     "rightPanel": {
       "type": "text",
-      "title": "«Quedarse» (Pronominal / Reflexivo)",
-      "badge": "Permanencia o cambio de estado",
+      "title": "What «Ser» Does NOT Express",
+      "badge": "Preview: The Verb «Estar»",
       "points": [
-        "Permanecer en un sitio: «Hoy llueve mucho, me quedo en casa estudiando.»",
-        "Quedarse sin (agotarse algo a alguien): «Me he quedado sin batería en el móvil.»",
-        "Cambio de estado emocional o mental: «Al oír la noticia se quedó boquiabierto.»",
-        "Apropiarse o elegir: «Entre los dos abrigos, me quedo con el azul.»"
+        "Temporary Feelings / Moods: Do NOT use ser for emotions («Estoy cansado», not «Soy cansado»).",
+        "Physical Location: Do NOT use ser to state where something is located («La academia está en el centro»).",
+        "Temporary Health: Use estar for health conditions («Estoy resfriado»).",
+        "Rule of Thumb: Ser defines what something is; Estar describes how or where something is right now."
       ]
     },
-    "notes": "Profesor: Hacer que dos alumnos lean cada lado y propongan un contraejemplo inmediato. Subrayar la diferencia entre 'quedar sin' y 'quedarse sin'."
+    "notes": "Teacher Notes: Introduce the popular 'DOCTOR' mnemonic (Description, Occupation, Characteristic, Time, Origin, Relationship) as an anchor. Reassure students that 'Estar' will have its own dedicated lesson."
   },
   {
     "slideId": "slide-05",
     "type": "reading",
-    "heading": "3. Lectura Guiada: Un sábado por La Latina",
-    "readingText": "Eran casi las doce de la mañana cuando sonó el teléfono. Era Carmen: «¿Quedamos en La Latina? Hace un día primaveral estupendo y el Rastro está a tope de ambiente». Como no tenía planes urgentes, acepté encantado.\n\nQuedamos justo en la salida de metro de Tirso de Molina. Carmen venía con su amiga Bea, a quien no veía desde hace meses. Decidimos buscar una mesa al sol en la Plaza de la Paja para pedir unos pinchos de tortilla.\n\nAl pedir la cuenta, le pregunté al camarero si le quedaba postre casero. Nos dijo con una sonrisa: «Lo siento, no nos queda flan, pero os queda un trozo de tarta de la abuela riquísimo». Nos quedamos en la terraza hasta las cinco de la tarde hablando de viajes.\n\nAntes de despedirnos, Bea nos enseñó una cazadora de cuero que acababa de comprar en una tienda de segunda mano: «¿Cómo me queda? ¿Pensáis que es demasiado llamativa?». Carmen exclamó: «¡Te queda genial, parece hecha a medida!». Al final, todos nos quedamos con ganas de repetir el plan el próximo fin de semana.",
+    "heading": "3. Reading in Context: Meeting at a Café in Madrid",
+    "readingText": "Es jueves por la tarde en un café del barrio de Malasaña, en Madrid. Elena y Liam se conocen en un intercambio de idiomas.\n\n— ¡Hola! ¿Eres Liam? Mucho gusto, soy Elena. ¿De dónde eres?\n— ¡Hola, Elena! Sí, soy yo. Soy de Mánchester, en el Reino Unido. ¿Y tú, eres de aquí de Madrid?\n— No, no soy de Madrid. Soy de Toledo, pero ahora soy estudiante en la Universidad Complutense. Mis compañeros de piso y yo somos amigos desde hace tres años.\n— ¡Qué bien! ¿Y tus amigos también son de Toledo?\n— No, Lucía es de Santander y Carlos es de Valencia. Vosotros los británicos sois muy simpáticos, ¿te gusta España?\n— ¡Me encanta! La gente es muy abierta y el clima es fantástico.",
     "vocabulary": [
-      { "word": "Estar a tope", "translation": "To be packed / full of energy" },
-      { "word": "No nos queda...", "translation": "We don't have any left / We ran out of" },
-      { "word": "¿Cómo me queda?", "translation": "How does it look on me? / How does it fit me?" },
-      { "word": "Te queda genial", "translation": "It suits you wonderfully" },
-      { "word": "Quedarse con ganas", "translation": "To be left wanting more / eager to repeat" },
-      { "word": "Terraza", "translation": "Outdoor street seating area of a bar" }
+      { "word": "Mucho gusto", "translation": "Pleased to meet you / Nice to meet you" },
+      { "word": "¿De dónde eres?", "translation": "Where are you from? (informal singular)" },
+      { "word": "Compañeros de piso", "translation": "Flatmates / Roommates" },
+      { "word": "Vosotros sois", "translation": "You all are (Spain informal plural)" },
+      { "word": "Simpático / a", "translation": "Friendly / Kind / Likeable" },
+      { "word": "El clima es fantástico", "translation": "The weather is fantastic" }
     ],
-    "notes": "Profesor: Clave de lectura. Identificar con los estudiantes los 5 usos distintos de quedar y quedarse que aparecen destacados en el texto."
+    "notes": "Teacher Notes: Have students read the dialogue in pairs. Draw attention to all six persons of 'ser' appearing in the text: soy, eres, es, somos, sois, son."
   },
   {
     "slideId": "slide-06",
     "type": "fill-gap",
-    "heading": "4. Práctica Interactiva: Rellena los huecos",
-    "instructions": "Haz clic sobre cada hueco vacío para revelar la forma correcta y su justificación.",
-    "gapText": "Ayer [quedé] con Carlos en el centro para comer. Fuimos a la tienda de deportes y las zapatillas rojas le [quedaban] perfectas, pero solo [quedaba] un par de su talla. Después, como estábamos cansadísimos, yo me [quedé] en casa viendo una película y nos [quedamos] dormidos a mitad del documental.",
-    "hints": [
-      "quedé (pretérito indefinido: tener una cita)",
-      "quedaban (pretérito imperfecto: sentar bien la ropa)",
-      "quedaba (haber restante / existencia)",
-      "quedé (permanecer en un lugar: quedarse)",
-      "quedamos (cambio de estado: quedarse dormido)"
-    ],
-    "notes": "Profesor: Pedir a los alumnos que antes de hacer clic justifiquen por qué se usa la forma pronominal o no pronominal en cada caso."
+    "heading": "4. Interactive Practice: Fill in the Blanks",
+    "instructions": "Click each blank space to reveal the correct form of the verb «ser» in Peninsular Spanish.",
+    "gapText": "¡Hola! Yo [soy] Daniel y ellos [son] mis amigos Pablo y Elena. Nosotros [somos] de Salamanca. Y tú, ¿de dónde [eres]? Vosotros [sois] de Inglaterra, ¿verdad? Madrid [es] una ciudad maravillosa.",
+    "notes": "Teacher Notes: Review pronoun agreement. Ask students to identify the grammatical subject for each gap before clicking: Yo -> soy, Ellos -> son, Nosotros -> somos, Tú -> eres, Vosotros -> sois, Madrid (it) -> es."
   },
   {
     "slideId": "slide-07",
     "type": "question",
-    "heading": "5. Pregunta Rápida de Comprensión",
-    "instructions": "Lee la situación cotidiana, debate tu respuesta con tu compañero y pulsa el botón para verificar.",
-    "question": "Tu compañero de piso aparece con unas gafas de sol nuevas y te pregunta: «¿Qué tal? ¿Cómo las ves?». Quieres decirle que le sientan fenomenal y favorecen su rostro. ¿Qué frase es la más idiomática en España?",
-    "answer": "«¡Te quedan genial!» o «¡Te quedan de cine / de maravilla!». En España empleamos el verbo 'quedar' como verbo tipo gustar (con pronombre indirecto: me / te / le / nos / os / les) para indicar si una prenda o complemento favorece a alguien.",
-    "notes": "Profesor: Explicar que la construcción es idéntica a 'gustar': A mí me queda bien, a ti te queda grande, a ella le queda largo."
+    "heading": "5. Quick Comprehension Question",
+    "instructions": "Consider the everyday scenario below, decide on your answer, then click to check your solution.",
+    "question": "You arrive at a language school in Madrid on your first day. How would you tell the receptionist: \"Hello, I am British and I am an English teacher\", following natural Spanish grammar rules?",
+    "answer": "«¡Hola! Soy británico (o británica) y soy profesor (o profesora) de inglés.» Note that you do not include 'un/una' before 'profesor', and nationality adjectives agree in gender with the speaker.",
+    "notes": "Teacher Notes: Emphasize masculine vs feminine endings: británico / británica, profesor / profesora. Remind students that omitting 'yo' is more natural in spoken Spanish."
   },
   {
     "slideId": "slide-08",
     "type": "conjugation",
-    "heading": "6. Tabla de Conjugación: «Quedarse»",
-    "explanation": "«Quedar» es un verbo regular de la 1ª conjugación (-ar). Cuando funciona como verbo pronominal («quedarse»), el pronombre reflexivo concuerda siempre con el sujeto. En España es fundamental el uso de «vosotros/as os quedáis».",
+    "heading": "6. Conjugation Table: The Verb «Ser»",
+    "explanation": "The verb «ser» is completely irregular in the present tense (presente de indicativo). Because it does not follow regular verb endings, its forms must be committed to memory. In Spain, the informal plural «vosotros/as sois» is standard when speaking to two or more friends.",
     "conjugationData": {
-      "tense": "Presente de Indicativo (Quedarse)",
-      "headers": ["Pronombre Sujeto", "Pronombre Reflexivo + Verbo", "Equivalente en Inglés", "Ejemplo Práctico"],
+      "tense": "Present Tense (Presente de Indicativo)",
+      "headers": ["Subject Pronoun", "Verb Form", "English Equivalent", "Textbook Example"],
       "rows": [
-        ["Yo", "me quedo", "I stay", "Yo me quedo aquí esperándote."],
-        ["Tú", "te quedas", "you stay (informal sing.)", "¿Te quedas a cenar con nosotros?"],
-        ["Él / Ella / Usted", "se queda", "he/she stays, you stay (formal)", "Don Manuel se queda en el hotel."],
-        ["Nosotros / Nosotras", "nos quedamos", "we stay", "Nos quedamos hasta las once."],
-        ["Vosotros / Vosotras", "os quedáis", "you all stay (Spain informal)", "¿Vosotros os quedáis a la fiesta?"],
-        ["Ellos / Ellas / Ustedes", "se quedan", "they stay, you all stay", "Ellos se quedan sin palabras."]
+        ["Yo", "soy", "I am", "Yo soy de Londres."],
+        ["Tú", "eres", "you are (sing. informal)", "¿Tú eres estudiante?"],
+        ["Él / Ella / Usted", "es", "he / she is, you are (formal)", "Ella es médica. Usted es muy amable."],
+        ["Nosotros / Nosotras", "somos", "we are", "Nosotros somos británicos."],
+        ["Vosotros / Vosotras", "sois", "you all are (Spain informal)", "Vosotros sois de Madrid."],
+        ["Ellos / Ellas / Ustedes", "son", "they are, you all are", "Ellos son profesores."]
       ]
     },
-    "notes": "Profesor: Llamar la atención sobre la tilde en 'quedáis' (vocal abierta 'a' con acento en diptongo decreciente). Contrastar con el pretérito indefinido: me quedé, te quedaste, se quedó..."
+    "notes": "Teacher Notes: Conduct choral repetition. Contrast informal 'tú eres' with formal 'usted es'. Point out that 'vosotros sois' is characteristic of Peninsular Spanish."
   },
   {
     "slideId": "slide-09",
     "type": "listen",
-    "heading": "7. Comprensión Auditiva: Conversación en Madrid",
-    "instructions": "Escucha la llamada telefónica entre dos amigos y haz clic en el recuadro difuminado para consultar la transcripción.",
-    "audioSrc": "media/quedar_audio.mp3",
-    "audioSrcWav": "media/quedar_audio.wav",
+    "heading": "7. Listening Comprehension: Telephone Call",
+    "instructions": "Listen to the audio track and click the blurred box to reveal the dialogue transcript.",
+    "audioSrc": "media/ser_audio.mp3",
+    "audioSrcWav": "media/ser_audio.wav",
     "image": "media/phone_call.svg",
-    "alt": "Javi y Carmen hablando por teléfono sobre sus planes de noche",
-    "transcript": "— ¡Hola Javi! Oye, ¿al final qué hacemos esta noche? ¿Quedamos en tu casa o en el centro de Madrid?\n— ¡Hola Carmen! Pues mira, mejor quedamos en Alonso Martínez sobre las ocho y media. Es que todavía me queda por terminar un informe de la oficina.\n— Perfecto. Por cierto, ¿queda sitio en el coche de Marcos para ir a la cena?\n— Sí, no te preocupes, le quedan dos plazas libres. ¡Hasta luego y nos vemos allí!",
-    "notes": "Profesor: Reproducir el audio dos veces sin desvelar la transcripción. Preguntar: 1) ¿A qué hora quedan? 2) ¿Por qué no puede antes Javi? 3) ¿Quedan plazas en el coche?"
+    "alt": "Javi and Carmen talking on the phone in Madrid",
+    "transcript": "— ¡Hola, Javi! Oye, ¿quién es la chica rubia del café?\n— ¡Hola, Carmen! Es Laura. Es de Escocia, pero su madre es española.\n— ¡Ah, qué interesante! ¿Es guía turística?\n— No, Laura y su hermano son músicos. Nosotros somos compañeros en la orquesta juvenil.\n— ¡Qué bien! Vosotros sois muy talentosos. ¡Hasta luego!",
+    "notes": "Teacher Notes: Play the audio track twice with the transcript blurred. Ask comprehension questions: 1) Who is Laura? 2) Where is she from? 3) What is her profession?"
   },
   {
     "slideId": "slide-10",
     "type": "match",
-    "heading": "8. Emparejamiento: ¿Qué significa «Quedar»?",
-    "instructions": "Arrastra cada frase de la columna izquierda y suéltala sobre su significado exacto en la columna derecha.",
+    "heading": "8. Matching Exercise: Pronouns & Sentences",
+    "instructions": "Drag each Spanish sentence from the left column and drop it onto its correct English translation on the right.",
     "pairs": [
       {
         "id": "pair-1",
-        "source": "Ayer quedé con Marta para merendar churros.",
-        "target": "Citarse o reunirse con una persona."
+        "source": "Yo soy profesor de español.",
+        "target": "I am a Spanish teacher."
       },
       {
         "id": "pair-2",
-        "source": "Ese vestido verde te queda sensacional.",
-        "target": "Sentar bien o favorecer una prenda de ropa."
+        "source": "¿De dónde eres tú?",
+        "target": "Where are you from? (informal)"
       },
       {
         "id": "pair-3",
-        "source": "¿Queda tortilla de patatas o se la han comido?",
-        "target": "Restar o sobrar una cantidad de algo."
+        "source": "Ella es de Valencia.",
+        "target": "She is from Valencia."
       },
       {
         "id": "pair-4",
-        "source": "Al escuchar el truco de magia se quedó boquiabierto.",
-        "target": "Experimentar un cambio de estado repentino."
+        "source": "Nosotros somos amigos.",
+        "target": "We are friends."
       },
       {
         "id": "pair-5",
-        "source": "¿En qué quedamos sobre la hora de salida?",
-        "target": "Llegar a un acuerdo o resolución mutua."
+        "source": "Vosotros sois muy amables.",
+        "target": "You all are very kind (Spain)."
       }
     ],
-    "notes": "Profesor: Dinámica en parejas: un alumno arrastra y el otro debe inventar una frase parecida con el mismo significado."
+    "notes": "Teacher Notes: Have students complete the matching in pairs. Encourage them to practice reading the Spanish sentences aloud after completing the matches."
   },
   {
     "slideId": "slide-11",
     "type": "homework",
-    "heading": "9. Tarea para Casa (Deberes)",
-    "badge": "Entrega: Próximo Lunes 23:59h",
-    "title": "Redacción y Grabación: Plan de Fin de Semana en Madrid",
+    "heading": "9. Homework Assignment (Deberes)",
+    "badge": "Due: Next Lesson",
+    "title": "Personal Profile & Short Introduction",
     "tasks": [
-      "Escribe un diálogo de 8 a 10 intercambios entre dos amigos españoles organizando un plan de sábado.",
-      "Debes incluir obligatoriamente al menos 4 usos diferentes de 'quedar' / 'quedarse' estudiados en clase.",
-      "Subraya cada uso y anota al margen su significado (reunirse, sentar bien, restar, quedarse en casa).",
-      "Graba un audio de 1 minuto leyendo el diálogo con entonación natural y súbelo a la plataforma."
+      "Write a 5-6 sentence personal profile in Spanish stating your name, nationality, hometown, and profession or study subject.",
+      "Include descriptions of two friends or family members using 'es' or 'son' (e.g. «Mi amigo Marcos es de Madrid»).",
+      "Practise conjugating all six forms of 'ser' aloud until you can recite them confidently from memory.",
+      "Record a 30-second voice note introducing yourself in Spanish and upload it to the school learning platform."
     ],
-    "tip": "Consejo lingüístico: Incluye expresiones como «¿A qué hora quedamos?», «No me queda saldo» o «Te queda genial».",
+    "tip": "Grammar Reminder: Remember that nationality adjectives change their endings to agree in gender with the person (e.g. inglés / inglesa, español / española).",
     "image": "media/homework_study.svg",
-    "alt": "Checklist de deberes de español",
-    "notes": "Profesor: Recordar los criterios de evaluación: corrección gramatical (30%), variedad de usos de quedar (40%), pronunciación y entonación en audio (30%)."
+    "alt": "Checklist for Spanish homework assignment",
+    "notes": "Teacher Notes: Homework assessment criteria: accurate conjugation of 'ser' (40%), correct gender agreement for nationalities/adjectives (30%), clarity of oral voice note (30%)."
   }
 ]
