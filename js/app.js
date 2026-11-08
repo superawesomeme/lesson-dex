@@ -35,9 +35,6 @@
     currentIndex: 0,
     defaultLessonData: null,
     isFullscreen: false,
-    isPinned: false, // Default: UI auto-hides for cinema classroom stage
-    isMouseOverBars: false,
-    autoHideTimeout: null,
     interactiveStates: {
       revealedGaps: new Set(),
       totalGapsOnSlide: 0,
@@ -52,12 +49,10 @@
   // 2. DOM Elements Cache
   // --------------------------------------------------------------------------
   const DOM = {
-    // Header & Auto-hide
+    // Header
     appHeader: document.getElementById('app-header'),
     lessonTitle: document.getElementById('header-lesson-title'),
     slideHeading: document.getElementById('header-slide-name'),
-    btnAutohideToggle: document.getElementById('btn-autohide-toggle'),
-    autohideIcon: document.getElementById('autohide-icon'),
     btnShortcuts: document.getElementById('btn-shortcuts'),
     btnPrint: document.getElementById('btn-print'),
     btnStudioToggle: document.getElementById('btn-studio-toggle'),
@@ -101,48 +96,7 @@
   };
 
   // --------------------------------------------------------------------------
-  // 3. UI Auto-Hide Engine
-  // --------------------------------------------------------------------------
-  function resetAutoHideTimer() {
-    if (state.isPinned) {
-      document.body.classList.remove('bars-hidden');
-      return;
-    }
-
-    // Always reveal bars when mouse moves
-    document.body.classList.remove('bars-hidden');
-
-    if (state.autoHideTimeout) {
-      clearTimeout(state.autoHideTimeout);
-    }
-
-    // Schedule hide after 2.5s of inactivity if not hovering over UI chrome or modal
-    state.autoHideTimeout = setTimeout(() => {
-      const isModalOpen = !DOM.studioModal.classList.contains('hidden') || !DOM.shortcutsModal.classList.contains('hidden');
-      if (!state.isPinned && !state.isMouseOverBars && !isModalOpen) {
-        document.body.classList.add('bars-hidden');
-      }
-    }, 2500);
-  }
-
-  function togglePinUI() {
-    state.isPinned = !state.isPinned;
-    DOM.btnAutohideToggle.classList.toggle('is-active', state.isPinned);
-    DOM.autohideIcon.innerHTML = state.isPinned ? ICONS.pin : ICONS.pinOff;
-    DOM.btnAutohideToggle.setAttribute('title', state.isPinned ? 'UI Pinned (Click to enable Auto-hide)' : 'Toggle Auto-hide UI (H)');
-
-    if (state.isPinned) {
-      if (state.autoHideTimeout) clearTimeout(state.autoHideTimeout);
-      document.body.classList.remove('bars-hidden');
-      showToast('UI chrome pinned to screen', 'info');
-    } else {
-      showToast('Auto-hide enabled (Hides when idle)', 'info');
-      resetAutoHideTimer();
-    }
-  }
-
-  // --------------------------------------------------------------------------
-  // 4. Lesson Data Loader (Fetch with Embedded Fallback)
+  // 3. Lesson Data Loader (Fetch with Embedded Fallback)
   // --------------------------------------------------------------------------
   async function loadInitialLesson() {
     try {
@@ -1321,8 +1275,6 @@
   // --------------------------------------------------------------------------
   function initKeyboardListeners() {
     window.addEventListener('keydown', (e) => {
-      resetAutoHideTimer();
-
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
         if (e.key === 'Escape') closeStudio();
         return;
@@ -1352,11 +1304,6 @@
         case 'F':
           e.preventDefault();
           toggleFullscreen();
-          break;
-        case 'h':
-        case 'H':
-          e.preventDefault();
-          togglePinUI();
           break;
         case 'e':
         case 'E':
@@ -1392,17 +1339,6 @@
       DOM.stageCanvas.classList.toggle('is-fullscreen', isFull);
       DOM.stageWrapper.classList.toggle('is-fullscreen-wrapper', isFull);
     });
-
-    // Auto-hide mouse move & edge sensor listeners
-    window.addEventListener('mousemove', (e) => {
-      resetAutoHideTimer();
-    });
-
-    // Hover tracking for floating bars to avoid hiding while teacher is interacting
-    DOM.appHeader.addEventListener('mouseenter', () => { state.isMouseOverBars = true; });
-    DOM.appHeader.addEventListener('mouseleave', () => { state.isMouseOverBars = false; resetAutoHideTimer(); });
-    DOM.progressionBar.addEventListener('mouseenter', () => { state.isMouseOverBars = true; });
-    DOM.progressionBar.addEventListener('mouseleave', () => { state.isMouseOverBars = false; resetAutoHideTimer(); });
   }
 
   function initUIEventListeners() {
@@ -1413,7 +1349,6 @@
     DOM.footerNextBtn.addEventListener('click', nextSlide);
 
     // Header buttons
-    DOM.btnAutohideToggle.addEventListener('click', togglePinUI);
     DOM.btnFullscreen.addEventListener('click', toggleFullscreen);
     DOM.btnPrint.addEventListener('click', triggerPrint);
     DOM.btnStudioToggle.addEventListener('click', openStudio);
@@ -1636,7 +1571,6 @@
     initKeyboardListeners();
     initUIEventListeners();
     loadInitialLesson();
-    resetAutoHideTimer();
   }
 
   if (document.readyState === 'loading') {
