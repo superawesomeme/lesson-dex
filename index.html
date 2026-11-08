@@ -1,46 +1,71 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lesson Dex | Modern Classroom Presentation Player & Studio</title>
+  <title>Lesson Dex | Classroom Presentation Player & Studio</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text y='68' font-size='60' x='18' fill='white'>📖</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0'/><path d='M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0'/><line x1='3' y1='6' x2='3' y2='19'/><line x1='12' y1='6' x2='12' y2='19'/><line x1='21' y1='6' x2='21' y2='19'/></svg>">
 </head>
 <body class="app-body">
   <!-- Application Top Navigation Header (Screen Only) -->
   <header class="app-header screen-only" role="banner">
     <div class="header-left">
       <div class="brand-logo" aria-label="Lesson Dex">
-        <span class="brand-icon">📚</span>
+        <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+          <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" />
+          <line x1="3" y1="6" x2="3" y2="19" />
+          <line x1="12" y1="6" x2="12" y2="19" />
+          <line x1="21" y1="6" x2="21" y2="19" />
+        </svg>
         <span class="brand-title">Lesson <span class="brand-accent">Dex</span></span>
       </div>
-      <span class="badge lesson-badge" id="header-lesson-title">Español: Verbo «Quedar»</span>
+      <span class="badge lesson-badge" id="header-lesson-title">Spanish: Verb «Quedar»</span>
     </div>
 
     <div class="header-center">
-      <!-- Current Slide Title / Breadcrumb -->
-      <span class="current-slide-heading" id="header-slide-name">Cargando presentación...</span>
+      <span class="current-slide-heading" id="header-slide-name">Loading presentation...</span>
     </div>
 
+    <!-- Symbols-only Header Actions -->
     <div class="header-actions">
-      <button id="btn-shortcuts" class="btn btn-ghost" title="Ver atajos de teclado (Presiona ?)">
-        <span class="icon">⌨</span>
-        <span class="btn-label">Atajos</span>
+      <button id="btn-shortcuts" class="btn btn-icon" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2" />
+          <path d="M6 10h.01" /><path d="M10 10h.01" /><path d="M14 10h.01" /><path d="M18 10h.01" />
+          <path d="M6 14h.01" /><path d="M18 14h.01" /><path d="M10 14h4" />
+        </svg>
       </button>
 
-      <button id="btn-print" class="btn btn-secondary" title="Imprimir diapositivas con notas para el profesor">
-        <span class="icon">🖨</span>
-        <span class="btn-label">Imprimir / PDF</span>
+      <button id="btn-print" class="btn btn-icon" title="Print Handout / Save as PDF (P)" aria-label="Print Handout">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" />
+          <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" />
+          <rect x="7" y="13" width="10" height="8" rx="2" />
+        </svg>
       </button>
 
-      <button id="btn-studio-toggle" class="btn btn-primary" title="Abrir editor JSON (Modo Estudio)">
-        <span class="icon">🛠</span>
-        <span class="btn-label">Studio (Maker)</span>
+      <button id="btn-studio-toggle" class="btn btn-icon" title="Lesson Builder Studio (E)" aria-label="Lesson Builder Studio">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4" />
+          <path d="M14.5 5.5l4 4" />
+          <path d="M12 8l-5 -5l-4 4l5 5" />
+          <path d="M7 8l-1.5 1.5" />
+          <path d="M16 12l5 5l-4 4l-5 -5" />
+          <path d="M16 17l-1.5 1.5" />
+        </svg>
       </button>
 
-      <button id="btn-fullscreen" class="btn btn-icon" title="Pantalla completa (F)" aria-label="Pantalla completa">
-        <span class="icon" id="fullscreen-icon">⛶</span>
+      <button id="btn-fullscreen" class="btn btn-icon" title="Toggle Fullscreen (F)" aria-label="Toggle Fullscreen">
+        <span id="fullscreen-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
+            <path d="M4 16v2a2 2 0 0 0 2 2h2" />
+            <path d="M16 4h2a2 2 0 0 1 2 2v2" />
+            <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
+          </svg>
+        </span>
       </button>
     </div>
   </header>
@@ -49,47 +74,57 @@
   <main class="player-main screen-only" id="player-main">
     <div class="stage-wrapper" id="stage-wrapper">
       
-      <!-- Side Navigation Arrow: Previous -->
-      <button id="stage-prev-btn" class="stage-nav-arrow stage-nav-prev" aria-label="Diapositiva anterior (Flecha izquierda)" title="Anterior (←)">
-        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="15 18 9 12 15 6"></polyline>
+      <!-- Side Navigation Arrow: Previous (Non-overlapping flex sibling) -->
+      <button id="stage-prev-btn" class="stage-nav-arrow stage-nav-prev" aria-label="Previous Slide (Left Arrow)" title="Previous (←)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 6l-6 6l6 6" />
         </svg>
       </button>
 
       <!-- 16:9 Aspect Ratio Presentation Player Canvas -->
-      <div class="stage-canvas" id="stage-canvas" tabindex="0" role="region" aria-label="Pantalla de presentación">
+      <div class="stage-canvas" id="stage-canvas" tabindex="0" role="region" aria-label="Presentation Slide Canvas">
         <div id="slide-viewport" class="slide-viewport" aria-live="polite">
           <!-- Slide dynamic content rendered here by js/app.js -->
         </div>
       </div>
 
-      <!-- Side Navigation Arrow: Next -->
-      <button id="stage-next-btn" class="stage-nav-arrow stage-nav-next" aria-label="Siguiente diapositiva (Flecha derecha o Espacio)" title="Siguiente (→ / Espacio)">
-        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
+      <!-- Side Navigation Arrow: Next (Non-overlapping flex sibling) -->
+      <button id="stage-next-btn" class="stage-nav-arrow stage-nav-next" aria-label="Next Slide (Right Arrow or Space)" title="Next (→ / Space)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6l-6 6" />
         </svg>
       </button>
     </div>
   </main>
 
   <!-- Bottom Progression Track & Controls (Screen Only) -->
-  <footer class="progression-bar screen-only" role="region" aria-label="Barra de progreso de la presentación">
+  <footer class="progression-bar screen-only" role="region" aria-label="Presentation Progression Bar">
     <div class="progression-info">
-      <span class="slide-counter-badge" id="slide-counter">Diapositiva 1 / 11</span>
+      <span class="slide-counter-badge" id="slide-counter">Slide 1 of 11</span>
       <span class="slide-type-tag" id="slide-type-tag">intro</span>
     </div>
 
     <!-- Visual progression history: clickable pills/dots -->
-    <div class="progression-track" id="progression-track" role="tablist" aria-label="Navegación de diapositivas">
-      <!-- Dots dynamically injected by js/app.js -->
+    <div class="progression-track" id="progression-track" role="tablist" aria-label="Slide Progression Dots">
+      <!-- Injected by js/app.js -->
     </div>
 
+    <!-- Copyright mark -->
+    <div class="footer-copyright">
+      Created by Shaun Daubney
+    </div>
+
+    <!-- Symbols-only Progression Controls -->
     <div class="progression-controls">
-      <button id="footer-prev-btn" class="btn btn-sm btn-outline" title="Anterior (←)">
-        <span>← Anterior</span>
+      <button id="footer-prev-btn" class="btn btn-icon btn-footer-nav" title="Previous Slide (←)" aria-label="Previous Slide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 6l-6 6l6 6" />
+        </svg>
       </button>
-      <button id="footer-next-btn" class="btn btn-sm btn-primary" title="Siguiente (→)">
-        <span>Siguiente →</span>
+      <button id="footer-next-btn" class="btn btn-icon btn-footer-nav" title="Next Slide (→)" aria-label="Next Slide">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6l-6 6" />
+        </svg>
       </button>
     </div>
   </footer>
@@ -99,68 +134,105 @@
     <div class="studio-dialog">
       <header class="studio-header">
         <div class="studio-header-title">
-          <span class="studio-icon">🛠</span>
+          <svg class="studio-header-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4" />
+            <path d="M14.5 5.5l4 4" />
+            <path d="M12 8l-5 -5l-4 4l5 5" />
+            <path d="M7 8l-1.5 1.5" />
+            <path d="M16 12l5 5l-4 4l-5 -5" />
+            <path d="M16 17l-1.5 1.5" />
+          </svg>
           <div>
             <h2 id="studio-title">Lesson Builder Studio <span class="badge badge-studio">Maker Mode</span></h2>
-            <p class="studio-subtitle">Edita, pega o exporta el JSON de la lección para actualizar la presentación en tiempo real.</p>
+            <p class="studio-subtitle">Edit, paste, or export lesson JSON to update presentation slides in real time.</p>
           </div>
         </div>
-        <button id="btn-studio-close" class="btn btn-icon btn-ghost" aria-label="Cerrar Estudio">✕</button>
+        <button id="btn-studio-close" class="btn btn-icon btn-ghost" aria-label="Close Studio" title="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </header>
 
       <div class="studio-toolbar">
         <div class="studio-toolbar-group">
-          <button id="btn-studio-reset" class="btn btn-sm btn-outline" title="Recargar la lección inicial de Peninsular Spanish">
-            🔄 Lección por defecto
+          <button id="btn-studio-reset" class="btn btn-sm btn-outline" title="Reload default Spanish lesson">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+              <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+            </svg>
+            <span>Default Lesson</span>
           </button>
-          <button id="btn-studio-format" class="btn btn-sm btn-outline" title="Formatear e indentar el código JSON">
-            ✨ Formatear JSON
+          <button id="btn-studio-format" class="btn btn-sm btn-outline" title="Prettify and indent JSON code">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4" />
+            </svg>
+            <span>Format JSON</span>
           </button>
-          <label class="btn btn-sm btn-outline file-upload-btn" title="Subir un archivo .json desde tu ordenador">
-            📂 Importar archivo
+          <label class="btn btn-sm btn-outline file-upload-btn" title="Upload a .json file from your computer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+              <polyline points="7 9 12 4 17 9" />
+              <line x1="12" y1="4" x2="12" y2="16" />
+            </svg>
+            <span>Import File</span>
             <input type="file" id="studio-file-input" accept=".json,application/json" class="visually-hidden">
           </label>
         </div>
 
         <div class="studio-toolbar-group">
-          <button id="btn-studio-export" class="btn btn-sm btn-secondary" title="Descargar como lesson.json">
-            💾 Exportar JSON
+          <button id="btn-studio-export" class="btn btn-sm btn-secondary" title="Download as lesson.json">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
+              <polyline points="7 11 12 16 17 11" />
+              <line x1="12" y1="4" x2="12" y2="16" />
+            </svg>
+            <span>Export JSON</span>
           </button>
-          <button id="btn-studio-apply" class="btn btn-sm btn-success" title="Aplicar cambios al reproductor inmediatamente">
-            ⚡ Aplicar al Reproductor
+          <button id="btn-studio-apply" class="btn btn-sm btn-success" title="Apply changes to presentation player">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12l5 5l10 -10" />
+            </svg>
+            <span>Apply to Player</span>
           </button>
         </div>
       </div>
 
       <div class="studio-body">
         <div class="studio-editor-container">
-          <label for="studio-json-editor" class="visually-hidden">Editor JSON de la lección</label>
-          <textarea id="studio-json-editor" spellcheck="false" placeholder="Pega aquí el JSON de la lección..."></textarea>
+          <label for="studio-json-editor" class="visually-hidden">Lesson JSON editor</label>
+          <textarea id="studio-json-editor" spellcheck="false" placeholder="Paste lesson JSON here..."></textarea>
         </div>
         
         <div id="studio-feedback" class="studio-feedback" aria-live="polite">
           <span class="status-indicator ready">●</span>
-          <span id="studio-feedback-text">Listo para editar. Los 11 tipos de diapositiva son soportados.</span>
+          <span id="studio-feedback-text">Ready to edit. All 11 slide types supported.</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Keyboard Shortcuts Cheat Sheet Modal -->
+  <!-- Keyboard Shortcuts Modal -->
   <div id="shortcuts-modal" class="studio-modal screen-only hidden" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
     <div class="modal-card">
       <div class="modal-card-header">
-        <h3 id="shortcuts-title">⌨ Atajos de Teclado</h3>
-        <button id="btn-shortcuts-close" class="btn btn-icon btn-ghost" aria-label="Cerrar">✕</button>
+        <h3 id="shortcuts-title">Keyboard Shortcuts</h3>
+        <button id="btn-shortcuts-close" class="btn btn-icon btn-ghost" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
       <div class="modal-card-body">
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>→</kbd> o <kbd>Espacio</kbd></span><span>Siguiente diapositiva</span></div>
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>←</kbd></span><span>Diapositiva anterior</span></div>
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>Inicio</kbd> / <kbd>Fin</kbd></span><span>Primera / Última diapositiva</span></div>
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>F</kbd></span><span>Pantalla completa (Toggle)</span></div>
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>E</kbd></span><span>Abrir / Cerrar Lesson Studio</span></div>
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>P</kbd></span><span>Imprimir / Exportar a PDF</span></div>
-        <div class="shortcut-row"><span class="shortcut-keys"><kbd>Esc</kbd></span><span>Cerrar ventanas emergentes</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>→</kbd> or <kbd>Space</kbd></span><span>Next slide</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>←</kbd></span><span>Previous slide</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>Home</kbd> / <kbd>End</kbd></span><span>First / Last slide</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>F</kbd></span><span>Toggle fullscreen</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>E</kbd></span><span>Open / Close Studio</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>P</kbd></span><span>Print / Export to PDF</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>Esc</kbd></span><span>Close dialogs</span></div>
       </div>
     </div>
   </div>
@@ -170,7 +242,7 @@
 
   <!-- Print Mode Container (Explicitly reveals all 11 slides + teacher notes) -->
   <div id="print-container" class="print-container" aria-hidden="true">
-    <!-- Dynamically populated by js/app.js for clean A4 printing -->
+    <!-- Populated by js/app.js for clean A4 printing -->
   </div>
 
   <!-- Application Scripts -->

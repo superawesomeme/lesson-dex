@@ -1,12 +1,29 @@
 /**
  * ============================================================================
  * LESSON DEX - PRESENTATION PLAYER & STUDIO ENGINE
- * Strict Vanilla JavaScript (ES6+)
+ * Strict Vanilla JavaScript (ES6+) • UK English Edition
  * ============================================================================
  */
 
 (function () {
   'use strict';
+
+  // --------------------------------------------------------------------------
+  // Local Tabler SVG Icons Dictionary (No Emojis)
+  // --------------------------------------------------------------------------
+  const ICONS = {
+    eye: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>`,
+    eyeOff: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" /><path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" /><path d="M3 3l18 18" /></svg>`,
+    check: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10" /></svg>`,
+    bulb: `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" /><path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3" /><line x1="9.7" y1="17" x2="14.3" y2="17" /></svg>`,
+    help: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 17v.01" /><path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -2" /></svg>`,
+    grip: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1" fill="currentColor" /><circle cx="9" cy="12" r="1" fill="currentColor" /><circle cx="9" cy="19" r="1" fill="currentColor" /><circle cx="15" cy="5" r="1" fill="currentColor" /><circle cx="15" cy="12" r="1" fill="currentColor" /><circle cx="15" cy="19" r="1" fill="currentColor" /></svg>`,
+    maximize: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8v-2a2 2 0 0 1 2 -2h2" /><path d="M4 16v2a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v2" /><path d="M16 20h2a2 2 0 0 0 2 -2v-2" /></svg>`,
+    minimize: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h4v-4" /><path d="M3 3l6 6" /><path d="M5 15h4v4" /><path d="M3 21l6 -6" /><path d="M19 9h-4v-4" /><path d="M15 9l6 -6" /><path d="M19 15h-4v4" /><path d="M15 15l6 6" /></svg>`,
+    book: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><line x1="3" y1="6" x2="3" y2="19" /><line x1="12" y1="6" x2="12" y2="19" /><line x1="21" y1="6" x2="21" y2="19" /></svg>`,
+    warning: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.76 2.75" /></svg>`,
+    circleCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" /></svg>`
+  };
 
   // --------------------------------------------------------------------------
   // 1. Application State
@@ -18,6 +35,7 @@
     isFullscreen: false,
     interactiveStates: {
       revealedGaps: new Set(),
+      totalGapsOnSlide: 0,
       answerRevealed: false,
       matchedPairs: new Set(),
       selectedMatchSource: null,
@@ -86,8 +104,7 @@
       state.defaultLessonData = JSON.parse(JSON.stringify(data));
       setLessonData(data);
     } catch (err) {
-      console.warn('Could not fetch lesson.json directly (likely offline file:// context). Loading embedded fallback...', err);
-      // Robust fallback dataset matching lesson.json
+      console.warn('Could not fetch lesson.json directly. Loading embedded fallback...', err);
       const fallback = getEmbeddedFallbackLesson();
       state.defaultLessonData = JSON.parse(JSON.stringify(fallback));
       setLessonData(fallback);
@@ -96,7 +113,7 @@
 
   function setLessonData(data) {
     if (!Array.isArray(data) || data.length === 0) {
-      showToast('El archivo JSON debe contener un array no vacío de diapositivas.', 'error');
+      showToast('The JSON file must contain a non-empty array of slides.', 'error');
       return false;
     }
 
@@ -113,12 +130,13 @@
 
     // Render First Slide
     renderCurrentSlide();
-    showToast(`Lección cargada (${state.slides.length} diapositivas)`, 'success');
+    showToast(`Lesson loaded (${state.slides.length} slides)`, 'success');
     return true;
   }
 
   function resetInteractiveStates() {
     state.interactiveStates.revealedGaps.clear();
+    state.interactiveStates.totalGapsOnSlide = 0;
     state.interactiveStates.answerRevealed = false;
     state.interactiveStates.matchedPairs.clear();
     state.interactiveStates.selectedMatchSource = null;
@@ -161,7 +179,7 @@
       stepBtn.setAttribute('role', 'tab');
       stepBtn.setAttribute('aria-selected', idx === state.currentIndex ? 'true' : 'false');
       
-      const title = slide.title || slide.heading || `Diapositiva ${idx + 1}`;
+      const title = slide.title || slide.heading || `Slide ${idx + 1}`;
       stepBtn.setAttribute('title', `${idx + 1}. [${slide.type}] ${title}`);
 
       stepBtn.addEventListener('click', () => goToSlide(idx));
@@ -178,12 +196,12 @@
 
     if (!currentSlide) return;
 
-    // Counter badge and type tag
-    DOM.slideCounter.textContent = `Diapositiva ${current + 1} / ${total}`;
+    // Counter badge and type tag (UK English)
+    DOM.slideCounter.textContent = `Slide ${current + 1} of ${total}`;
     DOM.slideTypeTag.textContent = currentSlide.type;
 
     // Header Slide title
-    const titleText = currentSlide.title || currentSlide.heading || `Diapositiva ${current + 1}`;
+    const titleText = currentSlide.title || currentSlide.heading || `Slide ${current + 1}`;
     DOM.slideHeading.textContent = `${current + 1}. ${titleText}`;
 
     // Prev / Next button states
@@ -208,6 +226,7 @@
   // --------------------------------------------------------------------------
   // 6. Slide Render Engine (The 11 Layouts)
   // Notes data is STRICTLY excluded from the DOM in Player Mode!
+  // Content font size >= 22px for back-of-class visibility.
   // --------------------------------------------------------------------------
   function renderCurrentSlide() {
     const slide = state.slides[state.currentIndex];
@@ -282,7 +301,7 @@
 
     const title = document.createElement('h1');
     title.className = 'intro-title';
-    title.textContent = slide.title || 'Título de la Lección';
+    title.textContent = slide.title || 'Lesson Title';
     overlay.appendChild(title);
 
     if (slide.subtitle) {
@@ -294,7 +313,7 @@
 
     const hint = document.createElement('div');
     hint.className = 'intro-start-hint';
-    hint.innerHTML = '<span>Pulsa</span> <kbd>→</kbd> <span>o</span> <kbd>Espacio</kbd> <span>para comenzar</span>';
+    hint.innerHTML = '<span>Press</span> <kbd>→</kbd> <span>or</span> <kbd>Space</kbd> <span>to begin</span>';
     overlay.appendChild(hint);
 
     container.appendChild(overlay);
@@ -306,27 +325,27 @@
   function renderObjectivesSlide(slide, container) {
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Metas de Aprendizaje</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Objetivos de la Sesión')}</h2>
+        <span class="slide-header-badge">Learning Goals</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Lesson Objectives')}</h2>
       </header>
       <div class="slide-body">
         <div class="layout-objectives-grid">
           <div class="objectives-card">
             <div class="objectives-lead">
-              <span>🎯</span>
+              ${ICONS.bulb}
               <span>${escapeHtml(slide.leftStaticText || 'Today we will...')}</span>
             </div>
             <ul class="objectives-list">
               ${(slide.items || []).map(item => `
                 <li>
-                  <span class="objective-check-icon">✓</span>
+                  <span class="objective-check-icon">${ICONS.check}</span>
                   <span>${escapeHtml(item)}</span>
                 </li>
               `).join('')}
             </ul>
           </div>
           <div class="media-frame">
-            <img src="${escapeHtml(slide.image || 'media/spain_cafe.svg')}" alt="${escapeHtml(slide.alt || 'Objetivos')}" onerror="this.src='media/spain_cafe.svg'">
+            <img src="${escapeHtml(slide.image || 'media/spain_cafe.svg')}" alt="${escapeHtml(slide.alt || 'Objectives')}" onerror="this.src='media/spain_cafe.svg'">
             ${slide.caption ? `<div class="media-caption">${escapeHtml(slide.caption)}</div>` : ''}
           </div>
         </div>
@@ -339,14 +358,14 @@
   // --------------------------------------------------------------------------
   function renderHomeworkSlide(slide, container) {
     const tasks = slide.tasks || (slide.content && slide.content.tasks) || [];
-    const badge = slide.badge || (slide.content && slide.content.badge) || 'Tarea Asignada';
-    const title = slide.title || (slide.content && slide.content.title) || 'Deberes para la próxima clase';
+    const badge = slide.badge || (slide.content && slide.content.badge) || 'Independent Study';
+    const title = slide.title || (slide.content && slide.content.title) || 'Homework Assignment';
     const tip = slide.tip || (slide.content && slide.content.tip) || '';
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Trabajo Autónomo</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Tarea para Casa')}</h2>
+        <span class="slide-header-badge">Assignment</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Homework')}</h2>
       </header>
       <div class="slide-body">
         <div class="layout-homework-grid">
@@ -361,10 +380,10 @@
                 </li>
               `).join('')}
             </ul>
-            ${tip ? `<div class="homework-tip">💡 ${escapeHtml(tip)}</div>` : ''}
+            ${tip ? `<div class="homework-tip">${ICONS.bulb} <span>${escapeHtml(tip)}</span></div>` : ''}
           </div>
           <div class="media-frame">
-            <img src="${escapeHtml(slide.image || 'media/homework_study.svg')}" alt="${escapeHtml(slide.alt || 'Deberes')}" onerror="this.src='media/homework_study.svg'">
+            <img src="${escapeHtml(slide.image || 'media/homework_study.svg')}" alt="${escapeHtml(slide.alt || 'Homework')}" onerror="this.src='media/homework_study.svg'">
           </div>
         </div>
       </div>
@@ -390,12 +409,11 @@
       contentHtml = `
         <div class="media-frame" style="max-height: 420px;">
           <video controls poster="media/madrid_puerta_sol.svg" src="${escapeHtml(c.src || slide.src || 'media/sample_video.mp4')}">
-            Tu navegador no soporta reproducción de vídeo HTML5.
+            Your browser does not support HTML5 video.
           </video>
         </div>
       `;
     } else {
-      // Default text card
       contentHtml = `
         <div class="one-panel-card">
           ${c.tag ? `<span class="one-panel-tag">${escapeHtml(c.tag)}</span>` : ''}
@@ -406,15 +424,15 @@
               ${c.dialogue.map(line => `<div>${escapeHtml(line)}</div>`).join('')}
             </div>
           ` : ''}
-          ${c.caution ? `<div class="caution-note">⚠️ ${escapeHtml(c.caution)}</div>` : ''}
+          ${c.caution ? `<div class="caution-note">${ICONS.warning} <span>${escapeHtml(c.caution)}</span></div>` : ''}
         </div>
       `;
     }
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Concepto Central</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Panel Principal')}</h2>
+        <span class="slide-header-badge">Core Concept</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Overview')}</h2>
       </header>
       <div class="slide-body">
         <div class="one-panel-container">
@@ -442,32 +460,31 @@
       if (panel.type === 'video') {
         return `
           <div class="media-frame">
-            <video controls src="${escapeHtml(panel.src || 'media/sample_video.mp4')}">Vídeo</video>
+            <video controls src="${escapeHtml(panel.src || 'media/sample_video.mp4')}">Video</video>
           </div>
         `;
       }
 
-      // Default: text panel
       return `
         <div class="panel-card ${accentClass}">
           <div class="panel-header">
             <h3 class="panel-title">${escapeHtml(panel.title || '')}</h3>
             ${panel.badge ? `<span class="badge ${accentClass === 'panel-accent-left' ? 'lesson-badge' : 'badge-studio'}">${escapeHtml(panel.badge)}</span>` : ''}
           </div>
-          ${panel.lead ? `<p style="font-size: 0.9rem; color: #475569; margin-bottom: 0.4rem;">${escapeHtml(panel.lead)}</p>` : ''}
+          ${panel.lead ? `<p style="font-size: 22px; color: #475569; margin-bottom: 0.5rem;">${escapeHtml(panel.lead)}</p>` : ''}
           ${Array.isArray(panel.points) ? `
             <ul class="panel-points">
               ${panel.points.map(pt => `<li>${escapeHtml(pt)}</li>`).join('')}
             </ul>
-          ` : (panel.body ? `<p style="white-space: pre-line; font-size: 0.9rem; line-height: 1.6;">${escapeHtml(panel.body)}</p>` : '')}
+          ` : (panel.body ? `<p style="white-space: pre-line; font-size: 22px; line-height: 1.6;">${escapeHtml(panel.body)}</p>` : '')}
         </div>
       `;
     }
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Comparativa y Análisis</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Dos Perspectivas')}</h2>
+        <span class="slide-header-badge">Comparison</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Two Panels')}</h2>
       </header>
       <div class="slide-body">
         <div class="layout-two-panel-grid">
@@ -479,12 +496,11 @@
   }
 
   // --------------------------------------------------------------------------
-  // Layout 6: FILL-GAP (Click to Reveal Interactive)
+  // Layout 6: FILL-GAP (Click to Reveal + Single Eye/Eye-Off Toggle Button)
   // --------------------------------------------------------------------------
   function renderFillGapSlide(slide, container) {
     const rawText = slide.gapText || slide.sentence || '';
     
-    // Parse words enclosed in brackets [word]
     const gapRegex = /\[(.*?)\]/g;
     let gapIndex = 0;
     const tokens = [];
@@ -492,7 +508,6 @@
     let match;
 
     while ((match = gapRegex.exec(rawText)) !== null) {
-      // Text before gap
       if (match.index > lastIndex) {
         tokens.push({ type: 'text', val: rawText.substring(lastIndex, match.index) });
       }
@@ -504,13 +519,16 @@
       tokens.push({ type: 'text', val: rawText.substring(lastIndex) });
     }
 
+    state.interactiveStates.totalGapsOnSlide = gapIndex;
+    const allRevealed = state.interactiveStates.revealedGaps.size === gapIndex && gapIndex > 0;
+
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Ejercicio Práctico</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Rellena los huecos')}</h2>
+        <span class="slide-header-badge">Practice Activity</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Fill in the Blanks')}</h2>
         <div class="slide-instructions-banner">
-          <span>💡</span>
-          <span>${escapeHtml(slide.instructions || 'Haz clic en cada hueco para desvelar la palabra oculta.')}</span>
+          ${ICONS.bulb}
+          <span>${escapeHtml(slide.instructions || 'Click each blank space to reveal the missing word.')}</span>
         </div>
       </header>
       <div class="slide-body">
@@ -519,11 +537,9 @@
             <p class="gap-sentence" id="gap-sentence-wrapper"></p>
           </div>
           <div class="fill-gap-actions">
-            <button id="btn-reveal-all-gaps" class="btn btn-sm btn-outline">
-              <span>👁️ Desvelar Todos</span>
-            </button>
-            <button id="btn-reset-gaps" class="btn btn-sm btn-secondary">
-              <span>🔄 Reiniciar</span>
+            <button id="btn-toggle-gaps" class="btn-action-toggle ${allRevealed ? 'is-active' : ''}">
+              <span class="icon">${allRevealed ? ICONS.eyeOff : ICONS.eye}</span>
+              <span class="toggle-label">${allRevealed ? 'Hide All' : 'Reveal All'}</span>
             </button>
           </div>
         </div>
@@ -531,6 +547,8 @@
     `;
 
     const sentenceWrapper = container.querySelector('#gap-sentence-wrapper');
+    const toggleBtn = container.querySelector('#btn-toggle-gaps');
+
     tokens.forEach(tok => {
       if (tok.type === 'text') {
         sentenceWrapper.appendChild(document.createTextNode(tok.val));
@@ -539,7 +557,7 @@
         const blank = document.createElement('button');
         blank.className = `gap-blank ${isRevealed ? 'revealed' : ''}`;
         blank.setAttribute('data-gap-idx', tok.index);
-        blank.setAttribute('title', isRevealed ? 'Palabra desvelada' : 'Haz clic para descubrir');
+        blank.setAttribute('title', isRevealed ? 'Revealed' : 'Click to reveal');
         blank.textContent = isRevealed ? tok.answer : `[ ? ]`;
 
         blank.addEventListener('click', () => {
@@ -548,6 +566,7 @@
             blank.classList.add('revealed');
             blank.textContent = tok.answer;
             playChime(600);
+            updateFillGapToggleState();
           }
         });
 
@@ -555,42 +574,54 @@
       }
     });
 
-    // Reveal All button
-    container.querySelector('#btn-reveal-all-gaps').addEventListener('click', () => {
-      tokens.filter(t => t.type === 'gap').forEach(tok => state.interactiveStates.revealedGaps.add(tok.index));
-      sentenceWrapper.querySelectorAll('.gap-blank').forEach((btn, idx) => {
-        const gapTok = tokens.filter(t => t.type === 'gap')[idx];
-        if (gapTok) {
-          btn.classList.add('revealed');
-          btn.textContent = gapTok.answer;
-        }
-      });
-      playChime(750);
-    });
+    function updateFillGapToggleState() {
+      const isComplete = state.interactiveStates.revealedGaps.size === state.interactiveStates.totalGapsOnSlide;
+      toggleBtn.classList.toggle('is-active', isComplete);
+      toggleBtn.querySelector('.icon').innerHTML = isComplete ? ICONS.eyeOff : ICONS.eye;
+      toggleBtn.querySelector('.toggle-label').textContent = isComplete ? 'Hide All' : 'Reveal All';
+    }
 
-    // Reset button
-    container.querySelector('#btn-reset-gaps').addEventListener('click', () => {
-      state.interactiveStates.revealedGaps.clear();
-      sentenceWrapper.querySelectorAll('.gap-blank').forEach(btn => {
-        btn.classList.remove('revealed');
-        btn.textContent = `[ ? ]`;
-      });
+    // Single Toggle Button: Eye to Reveal, Eye-Off to Reset
+    toggleBtn.addEventListener('click', () => {
+      const isComplete = state.interactiveStates.revealedGaps.size === state.interactiveStates.totalGapsOnSlide;
+      
+      if (isComplete) {
+        // Reset / Hide All
+        state.interactiveStates.revealedGaps.clear();
+        sentenceWrapper.querySelectorAll('.gap-blank').forEach(btn => {
+          btn.classList.remove('revealed');
+          btn.textContent = `[ ? ]`;
+        });
+        updateFillGapToggleState();
+      } else {
+        // Reveal All
+        tokens.filter(t => t.type === 'gap').forEach(tok => state.interactiveStates.revealedGaps.add(tok.index));
+        sentenceWrapper.querySelectorAll('.gap-blank').forEach((btn, idx) => {
+          const gapTok = tokens.filter(t => t.type === 'gap')[idx];
+          if (gapTok) {
+            btn.classList.add('revealed');
+            btn.textContent = gapTok.answer;
+          }
+        });
+        playChime(750);
+        updateFillGapToggleState();
+      }
     });
   }
 
   // --------------------------------------------------------------------------
-  // Layout 7: QUESTION
+  // Layout 7: QUESTION (Single Eye/Eye-Off Toggle Button)
   // --------------------------------------------------------------------------
   function renderQuestionSlide(slide, container) {
     const isAnswerRevealed = state.interactiveStates.answerRevealed;
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Pregunta Rápida</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Pregunta de Comprensión')}</h2>
+        <span class="slide-header-badge">Quick Question</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Check Your Understanding')}</h2>
         ${slide.instructions ? `
           <div class="slide-instructions-banner">
-            <span>🤔</span>
+            ${ICONS.bulb}
             <span>${escapeHtml(slide.instructions)}</span>
           </div>
         ` : ''}
@@ -599,20 +630,21 @@
         <div class="question-container">
           <div class="question-card">
             <div class="question-prompt">
-              <span class="question-mark-icon">?</span>
-              <span>${escapeHtml(slide.question || '¿Qué dirías en esta situación?')}</span>
+              <span class="question-icon-badge">${ICONS.help}</span>
+              <span>${escapeHtml(slide.question || 'What would you say in this situation?')}</span>
             </div>
 
-            <button id="btn-toggle-answer" class="reveal-answer-btn">
-              <span>${isAnswerRevealed ? '🙈 Ocultar Respuesta' : '✨ Revelar Respuesta'}</span>
+            <button id="btn-toggle-answer" class="btn-action-toggle ${isAnswerRevealed ? 'is-active' : ''}">
+              <span class="icon">${isAnswerRevealed ? ICONS.eyeOff : ICONS.eye}</span>
+              <span class="toggle-label">${isAnswerRevealed ? 'Hide Answer' : 'Reveal Answer'}</span>
             </button>
 
             <div id="answer-box" class="answer-card" style="display: ${isAnswerRevealed ? 'block' : 'none'};">
               <div class="answer-lead">
-                <span>✅</span>
-                <span>Respuesta y Explicación</span>
+                ${ICONS.circleCheck}
+                <span>Answer & Explanation</span>
               </div>
-              <p class="answer-text">${escapeHtml(slide.answer || 'Respuesta...')}</p>
+              <p class="answer-text">${escapeHtml(slide.answer || 'Answer...')}</p>
             </div>
           </div>
         </div>
@@ -626,33 +658,35 @@
       state.interactiveStates.answerRevealed = !state.interactiveStates.answerRevealed;
       const revealed = state.interactiveStates.answerRevealed;
       answerBox.style.display = revealed ? 'block' : 'none';
-      toggleBtn.innerHTML = `<span>${revealed ? '🙈 Ocultar Respuesta' : '✨ Revelar Respuesta'}</span>`;
+      toggleBtn.classList.toggle('is-active', revealed);
+      toggleBtn.querySelector('.icon').innerHTML = revealed ? ICONS.eyeOff : ICONS.eye;
+      toggleBtn.querySelector('.toggle-label').textContent = revealed ? 'Hide Answer' : 'Reveal Answer';
       if (revealed) playChime(680);
     });
   }
 
   // --------------------------------------------------------------------------
-  // Layout 8: MATCH (HTML5 Drag and Drop + Touch/Click Fallback)
+  // Layout 8: MATCH (Drag and Drop + Touch/Click Fallback)
   // --------------------------------------------------------------------------
   function renderMatchSlide(slide, container) {
     const pairs = slide.pairs || [];
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Actividad de Asociación</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Emparejar Elementos')}</h2>
+        <span class="slide-header-badge">Matching Activity</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Match Items')}</h2>
         <div class="slide-instructions-banner">
-          <span>🎯</span>
-          <span>${escapeHtml(slide.instructions || 'Arrastra cada frase de la izquierda a su significado correspondiente en la derecha.')}</span>
+          ${ICONS.bulb}
+          <span>${escapeHtml(slide.instructions || 'Drag each item from the left and drop it onto its matching target on the right.')}</span>
         </div>
       </header>
       <div class="slide-body">
         <div class="match-layout-grid">
           <div class="match-column" id="match-sources-col">
-            <div class="match-column-title">Expresiones / Frases (Arrastra o pulsa)</div>
+            <div class="match-column-title">Phrases / Expressions (Drag or Click)</div>
           </div>
           <div class="match-column" id="match-targets-col">
-            <div class="match-column-title">Significados / Destinos (Suelta aquí)</div>
+            <div class="match-column-title">Meanings / Targets (Drop Here)</div>
           </div>
         </div>
       </div>
@@ -661,7 +695,6 @@
     const sourcesCol = container.querySelector('#match-sources-col');
     const targetsCol = container.querySelector('#match-targets-col');
 
-    // Build Draggable Sources
     pairs.forEach((pair) => {
       const isMatched = state.interactiveStates.matchedPairs.has(pair.id);
       const sourceEl = document.createElement('div');
@@ -670,11 +703,10 @@
       sourceEl.setAttribute('data-pair-id', pair.id);
 
       sourceEl.innerHTML = `
-        <span class="drag-grip">⋮⋮</span>
+        <span class="drag-grip">${ICONS.grip}</span>
         <span>${escapeHtml(pair.source)}</span>
       `;
 
-      // HTML5 Drag Event Handlers
       sourceEl.addEventListener('dragstart', (e) => {
         sourceEl.classList.add('dragging');
         e.dataTransfer.setData('text/plain', pair.id);
@@ -685,7 +717,7 @@
         sourceEl.classList.remove('dragging');
       });
 
-      // Click-to-pair fallback
+      // Touch / click-to-pair fallback
       sourceEl.addEventListener('click', () => {
         if (state.interactiveStates.matchedPairs.has(pair.id)) return;
         sourcesCol.querySelectorAll('.match-drag-item').forEach(el => el.style.borderColor = '');
@@ -696,7 +728,6 @@
       sourcesCol.appendChild(sourceEl);
     });
 
-    // Build Drop Targets
     pairs.forEach((pair) => {
       const isMatched = state.interactiveStates.matchedPairs.has(pair.id);
       const targetEl = document.createElement('div');
@@ -705,7 +736,7 @@
 
       targetEl.innerHTML = `
         <span class="match-target-text">${escapeHtml(pair.target)}</span>
-        <span class="match-status-badge">${isMatched ? '✅ Correcto' : '⭕ Arrastra aquí'}</span>
+        <span class="match-status-badge">${isMatched ? `${ICONS.check} Matched` : 'Drop slot'}</span>
       `;
 
       targetEl.addEventListener('dragover', (e) => {
@@ -725,7 +756,6 @@
         handlePairMatch(droppedId, pair.id, targetEl);
       });
 
-      // Click-to-pair fallback drop trigger
       targetEl.addEventListener('click', () => {
         if (state.interactiveStates.selectedMatchSource) {
           handlePairMatch(state.interactiveStates.selectedMatchSource, pair.id, targetEl);
@@ -740,7 +770,7 @@
       if (sourceId === targetId) {
         state.interactiveStates.matchedPairs.add(sourceId);
         targetElement.classList.add('matched-correct');
-        targetElement.querySelector('.match-status-badge').textContent = '✅ Correcto';
+        targetElement.querySelector('.match-status-badge').innerHTML = `${ICONS.check} Matched`;
 
         const sourceEl = sourcesCol.querySelector(`[data-pair-id="${sourceId}"]`);
         if (sourceEl) {
@@ -750,33 +780,32 @@
         }
 
         playChime(880);
-        showToast('¡Emparejamiento correcto!', 'success');
+        showToast('Correct match!', 'success');
       } else {
-        // Mismatch shake feedback
         targetElement.style.borderColor = '#ef4444';
         targetElement.style.background = '#fef2f2';
         setTimeout(() => {
           targetElement.style.borderColor = '';
           targetElement.style.background = '';
         }, 500);
-        showToast('Inténtalo de nuevo', 'error');
+        showToast('Try again', 'error');
       }
     }
   }
 
   // --------------------------------------------------------------------------
-  // Layout 9: LISTEN
+  // Layout 9: LISTEN (Single Eye/Eye-Off Toggle Button)
   // --------------------------------------------------------------------------
   function renderListenSlide(slide, container) {
     const isBlurred = state.interactiveStates.isTranscriptBlurred;
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Comprensión Auditiva</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Escucha y Comprende')}</h2>
+        <span class="slide-header-badge">Listening Practice</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Listen and Comprehend')}</h2>
         ${slide.instructions ? `
           <div class="slide-instructions-banner">
-            <span>🎧</span>
+            ${ICONS.bulb}
             <span>${escapeHtml(slide.instructions)}</span>
           </div>
         ` : ''}
@@ -788,11 +817,11 @@
               <img src="${escapeHtml(slide.image || 'media/phone_call.svg')}" alt="${escapeHtml(slide.alt || 'Audio')}" onerror="this.src='media/phone_call.svg'">
             </div>
             <div class="listen-audio-card">
-              <span class="listen-audio-label">Reproductor de Audio</span>
+              <span class="listen-audio-label">Audio Track</span>
               <audio controls class="listen-audio-player">
                 <source src="${escapeHtml(slide.audioSrc || 'media/quedar_audio.mp3')}" type="audio/mpeg">
                 <source src="${escapeHtml(slide.audioSrcWav || 'media/quedar_audio.wav')}" type="audio/wav">
-                Tu navegador no soporta el elemento de audio.
+                Your browser does not support the audio element.
               </audio>
             </div>
           </div>
@@ -800,19 +829,21 @@
           <div class="listen-right-col">
             <div class="transcript-wrapper" id="transcript-wrapper">
               <div class="transcript-header">
-                <span class="transcript-title">Transcripción del Diálogo</span>
-                <button id="btn-toggle-blur" class="btn btn-sm btn-outline">
-                  ${isBlurred ? '👁️ Desvelar' : '🔒 Difuminar'}
+                <span class="transcript-title">Transcript</span>
+                <button id="btn-toggle-blur" class="btn-action-toggle ${!isBlurred ? 'is-active' : ''}">
+                  <span class="icon">${isBlurred ? ICONS.eye : ICONS.eyeOff}</span>
+                  <span class="toggle-label">${isBlurred ? 'Reveal' : 'Hide'}</span>
                 </button>
               </div>
 
               <div id="transcript-body" class="transcript-body ${isBlurred ? 'is-blurred' : ''}">
-                ${escapeHtml(slide.transcript || 'Transcripción no disponible.')}
+                ${escapeHtml(slide.transcript || 'Transcript not available.')}
               </div>
 
               ${isBlurred ? `
                 <div class="transcript-overlay-hint" id="transcript-hint">
-                  <span>👆 Haz clic para revelar la transcripción</span>
+                  ${ICONS.eye}
+                  <span>Click to reveal transcript</span>
                 </div>
               ` : ''}
             </div>
@@ -829,7 +860,9 @@
       state.interactiveStates.isTranscriptBlurred = !state.interactiveStates.isTranscriptBlurred;
       const blurred = state.interactiveStates.isTranscriptBlurred;
       transcriptBody.classList.toggle('is-blurred', blurred);
-      toggleBlurBtn.textContent = blurred ? '👁️ Desvelar' : '🔒 Difuminar';
+      toggleBlurBtn.classList.toggle('is-active', !blurred);
+      toggleBlurBtn.querySelector('.icon').innerHTML = blurred ? ICONS.eye : ICONS.eyeOff;
+      toggleBlurBtn.querySelector('.toggle-label').textContent = blurred ? 'Reveal' : 'Hide';
       if (transcriptHint) {
         transcriptHint.style.display = blurred ? 'flex' : 'none';
       }
@@ -849,8 +882,8 @@
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Comprensión Lectora</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Lectura en Contexto')}</h2>
+        <span class="slide-header-badge">Reading Comprehension</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Text in Context')}</h2>
       </header>
       <div class="slide-body">
         <div class="layout-reading-grid">
@@ -858,13 +891,16 @@
             ${paragraphs.map(p => `<p>${escapeHtml(p).replace(/\n/g, '<br>')}</p>`).join('')}
           </div>
           <div class="vocabulary-pane">
-            <div class="vocab-pane-header">📖 Vocabulario & Expresiones</div>
+            <div class="vocab-pane-header">
+              ${ICONS.book}
+              <span>Vocabulary & Key Phrases</span>
+            </div>
             <div class="vocab-table-wrapper">
               <table class="vocab-table">
                 <thead>
                   <tr>
-                    <th>Palabra / Expresión</th>
-                    <th>Traducción / Significado</th>
+                    <th>Phrase / Word</th>
+                    <th>English Translation</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -888,24 +924,24 @@
   // --------------------------------------------------------------------------
   function renderConjugationSlide(slide, container) {
     const conj = slide.conjugationData || { headers: [], rows: [] };
-    const headers = conj.headers || ['Pronombre', 'Forma', 'Traducción', 'Ejemplo'];
+    const headers = conj.headers || ['Pronoun', 'Verb Form', 'English', 'Example'];
     const rows = conj.rows || [];
 
     container.innerHTML = `
       <header class="slide-header">
-        <span class="slide-header-badge">Gramática & Morfología</span>
-        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Conjugación Verbal')}</h2>
+        <span class="slide-header-badge">Grammar & Morphology</span>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || 'Verb Conjugation')}</h2>
       </header>
       <div class="slide-body">
         <div class="layout-conjugation-grid">
           <div class="conjugation-notes-pane">
-            <p class="conjugation-lead">${escapeHtml(slide.explanation || 'Explicación de las formas verbales.')}</p>
+            <p class="conjugation-lead">${escapeHtml(slide.explanation || 'Explanation of verb usage and reflexive pronouns.')}</p>
             <div class="peninsular-focus-box">
-              <strong>🇪🇸 Enfoque Peninsular:</strong> El uso de <em>vosotros / vosotras</em> es estándar e imprescindible en el español peninsular informal.
+              <strong>Peninsular Spanish Focus:</strong> In Spain, the informal plural <em>vosotros / vosotras</em> is standard and essential for daily communication.
             </div>
           </div>
           <div class="conjugation-table-pane">
-            <div class="tense-title-bar">${escapeHtml(conj.tense || 'Conjugación')}</div>
+            <div class="tense-title-bar">${escapeHtml(conj.tense || 'Conjugation')}</div>
             <table class="conjugation-table">
               <thead>
                 <tr>
@@ -932,16 +968,16 @@
     `;
   }
 
-  // Fallback for unmapped custom layouts
+  // Fallback for custom layouts
   function renderUnknownSlide(slide, container) {
     container.innerHTML = `
       <header class="slide-header">
-        <h2 class="slide-heading">${escapeHtml(slide.heading || slide.title || 'Diapositiva')}</h2>
+        <h2 class="slide-heading">${escapeHtml(slide.heading || slide.title || 'Slide')}</h2>
       </header>
       <div class="slide-body">
         <div class="one-panel-card">
-          <p>Tipo de diapositiva desconocido: <code>${escapeHtml(slide.type)}</code></p>
-          <pre style="font-size: 0.8rem; overflow: auto; background: #f1f5f9; padding: 1rem; border-radius: 8px;">${escapeHtml(JSON.stringify(slide, null, 2))}</pre>
+          <p>Unrecognised slide type: <code>${escapeHtml(slide.type)}</code></p>
+          <pre style="font-size: 18px; overflow: auto; background: #f1f5f9; padding: 1rem; border-radius: 8px;">${escapeHtml(JSON.stringify(slide, null, 2))}</pre>
         </div>
       </div>
     `;
@@ -958,12 +994,12 @@
       const page = document.createElement('div');
       page.className = 'print-slide-page';
 
-      const title = slide.title || slide.heading || `Diapositiva ${idx + 1}`;
+      const title = slide.title || slide.heading || `Slide ${idx + 1}`;
       
       page.innerHTML = `
         <div class="print-slide-header">
-          <span class="print-brand">Lesson Dex • Peninsular Spanish</span>
-          <span class="print-slide-num">Página ${idx + 1} de ${state.slides.length} (${slide.type})</span>
+          <span class="print-brand">Lesson Dex • Teacher Handout</span>
+          <span class="print-slide-num">Page ${idx + 1} of ${state.slides.length} (${slide.type})</span>
         </div>
 
         <div class="print-slide-content">
@@ -971,10 +1007,9 @@
           ${renderPrintBody(slide)}
         </div>
 
-        <!-- Teacher Notes explicitly shown under each slide in printout -->
         <div class="print-teacher-notes">
-          <div class="print-teacher-notes-title">📝 Notas del Profesor / Guía Didáctica:</div>
-          <div class="print-teacher-notes-body">${escapeHtml(slide.notes || 'Sin notas adicionales para esta diapositiva.')}</div>
+          <div class="print-teacher-notes-title">Teacher Notes & Guidance:</div>
+          <div class="print-teacher-notes-body">${escapeHtml(slide.notes || 'No teacher notes provided for this slide.')}</div>
         </div>
       `;
 
@@ -988,7 +1023,7 @@
         return `<p style="font-size: 13pt; color: #475569;">${escapeHtml(slide.subtitle || '')}</p>`;
       case 'objectives':
         return `
-          <p><strong>${escapeHtml(slide.leftStaticText || 'Objetivos:')}</strong></p>
+          <p><strong>${escapeHtml(slide.leftStaticText || 'Objectives:')}</strong></p>
           <ul style="margin-left: 6mm; margin-top: 2mm;">
             ${(slide.items || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}
           </ul>
@@ -999,23 +1034,21 @@
           <ol style="margin-left: 6mm; margin-top: 2mm;">
             ${hwTasks.map(t => `<li>${escapeHtml(t)}</li>`).join('')}
           </ol>
-          ${slide.tip ? `<p style="margin-top: 3mm; font-style: italic;">💡 ${escapeHtml(slide.tip)}</p>` : ''}
+          ${slide.tip ? `<p style="margin-top: 3mm; font-style: italic;">${escapeHtml(slide.tip)}</p>` : ''}
         `;
       case 'fill-gap':
-        return `
-          <p style="font-size: 11pt; line-height: 1.8;">${escapeHtml(slide.gapText || '')}</p>
-        `;
+        return `<p style="font-size: 12pt; line-height: 1.8;">${escapeHtml(slide.gapText || slide.sentence || '')}</p>`;
       case 'question':
         return `
-          <p style="font-size: 12pt; margin-bottom: 4mm;"><strong>Pregunta:</strong> ${escapeHtml(slide.question || '')}</p>
+          <p style="font-size: 12pt; margin-bottom: 4mm;"><strong>Question:</strong> ${escapeHtml(slide.question || '')}</p>
           <div style="background: #f1f5f9; padding: 4mm; border-left: 4px solid #10b981;">
-            <strong>Solución:</strong> ${escapeHtml(slide.answer || '')}
+            <strong>Answer:</strong> ${escapeHtml(slide.answer || '')}
           </div>
         `;
       case 'match':
         return `
           <table style="width: 100%; border-collapse: collapse; margin-top: 3mm;" border="1">
-            <thead><tr><th style="padding: 2mm;">Frase</th><th style="padding: 2mm;">Significado</th></tr></thead>
+            <thead><tr><th style="padding: 2mm;">Expression</th><th style="padding: 2mm;">Target Meaning</th></tr></thead>
             <tbody>
               ${(slide.pairs || []).map(p => `<tr><td style="padding: 2mm;">${escapeHtml(p.source)}</td><td style="padding: 2mm;">${escapeHtml(p.target)}</td></tr>`).join('')}
             </tbody>
@@ -1024,17 +1057,17 @@
       case 'listen':
         return `
           <div style="margin-top: 3mm; padding: 3mm; background: #f8fafc; border: 1px solid #e2e8f0;">
-            <strong>Transcripción completa:</strong>
+            <strong>Full Dialogue Transcript:</strong>
             <p style="white-space: pre-line; margin-top: 2mm;">${escapeHtml(slide.transcript || '')}</p>
           </div>
         `;
       case 'reading':
         return `
-          <div style="font-size: 10pt; line-height: 1.6; margin-bottom: 4mm;">
+          <div style="font-size: 11pt; line-height: 1.6; margin-bottom: 4mm;">
             ${(slide.readingText || '').replace(/\n/g, '<br>')}
           </div>
           <table style="width: 100%; border-collapse: collapse; margin-top: 3mm;" border="1">
-            <thead><tr><th style="padding: 1.5mm;">Palabra</th><th style="padding: 1.5mm;">Traducción</th></tr></thead>
+            <thead><tr><th style="padding: 1.5mm;">Word</th><th style="padding: 1.5mm;">Translation</th></tr></thead>
             <tbody>
               ${(slide.vocabulary || []).map(v => `<tr><td style="padding: 1.5mm;"><strong>${escapeHtml(v.word)}</strong></td><td style="padding: 1.5mm;">${escapeHtml(v.translation)}</td></tr>`).join('')}
             </tbody>
@@ -1044,7 +1077,7 @@
         const rows = (slide.conjugationData && slide.conjugationData.rows) || [];
         return `
           <table style="width: 100%; border-collapse: collapse; margin-top: 3mm;" border="1">
-            <thead><tr><th style="padding: 1.5mm;">Pronombre</th><th style="padding: 1.5mm;">Forma</th><th style="padding: 1.5mm;">Traducción</th><th style="padding: 1.5mm;">Ejemplo</th></tr></thead>
+            <thead><tr><th style="padding: 1.5mm;">Pronoun</th><th style="padding: 1.5mm;">Form</th><th style="padding: 1.5mm;">Translation</th><th style="padding: 1.5mm;">Example</th></tr></thead>
             <tbody>
               ${rows.map(r => `<tr><td style="padding: 1.5mm;">${escapeHtml(r[0])}</td><td style="padding: 1.5mm;"><strong>${escapeHtml(r[1])}</strong></td><td style="padding: 1.5mm;">${escapeHtml(r[2])}</td><td style="padding: 1.5mm;">${escapeHtml(r[3])}</td></tr>`).join('')}
             </tbody>
@@ -1061,7 +1094,7 @@
   function openStudio() {
     DOM.studioEditor.value = JSON.stringify(state.slides, null, 2);
     DOM.studioModal.classList.remove('hidden');
-    DOM.studioFeedbackText.textContent = `Editando ${state.slides.length} diapositivas. Presiona 'Aplicar al Reproductor' para guardar.`;
+    DOM.studioFeedbackText.textContent = `Editing ${state.slides.length} slides. Press 'Apply to Player' to update.`;
     DOM.studioFeedback.querySelector('.status-indicator').className = 'status-indicator ready';
     DOM.studioEditor.focus();
   }
@@ -1074,11 +1107,11 @@
     try {
       const parsed = JSON.parse(DOM.studioEditor.value);
       DOM.studioEditor.value = JSON.stringify(parsed, null, 2);
-      setStudioStatus('JSON formateado correctamente.', true);
-      showToast('JSON formateado', 'success');
+      setStudioStatus('JSON formatted successfully.', true);
+      showToast('JSON formatted', 'success');
     } catch (err) {
-      setStudioStatus(`Error de sintaxis JSON: ${err.message}`, false);
-      showToast('Error en el formato JSON', 'error');
+      setStudioStatus(`JSON syntax error: ${err.message}`, false);
+      showToast('Invalid JSON syntax', 'error');
     }
   }
 
@@ -1086,20 +1119,19 @@
     try {
       const parsed = JSON.parse(DOM.studioEditor.value);
       if (!Array.isArray(parsed) || parsed.length === 0) {
-        throw new Error('El JSON debe ser un array que contenga al menos una diapositiva.');
+        throw new Error('JSON must be an array containing at least one slide.');
       }
 
-      // Check required fields for each slide
       parsed.forEach((s, idx) => {
-        if (!s.type) throw new Error(`La diapositiva en el índice ${idx} carece de la propiedad 'type'.`);
+        if (!s.type) throw new Error(`Slide at index ${idx} is missing the required 'type' property.`);
       });
 
       setLessonData(parsed);
-      setStudioStatus('¡Lección actualizada y aplicada con éxito al reproductor!', true);
-      showToast('Lección actualizada con éxito', 'success');
+      setStudioStatus('Lesson updated and applied to the player successfully!', true);
+      showToast('Lesson updated successfully', 'success');
       closeStudio();
     } catch (err) {
-      setStudioStatus(`Error al aplicar: ${err.message}`, false);
+      setStudioStatus(`Error applying JSON: ${err.message}`, false);
       showToast(`Error: ${err.message}`, 'error');
     }
   }
@@ -1107,8 +1139,7 @@
   function exportStudioJSON() {
     try {
       const jsonContent = DOM.studioEditor.value || JSON.stringify(state.slides, null, 2);
-      // Validate before export
-      JSON.parse(jsonContent);
+      JSON.parse(jsonContent); // Validate
 
       const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -1120,9 +1151,9 @@
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      showToast('Descargando lesson.json', 'success');
+      showToast('Exporting lesson.json', 'success');
     } catch (err) {
-      showToast(`No se puede exportar JSON inválido: ${err.message}`, 'error');
+      showToast(`Cannot export invalid JSON: ${err.message}`, 'error');
     }
   }
 
@@ -1136,22 +1167,22 @@
         const text = evt.target.result;
         const parsed = JSON.parse(text);
         DOM.studioEditor.value = JSON.stringify(parsed, null, 2);
-        setStudioStatus(`Archivo '${file.name}' cargado en el editor.`, true);
-        showToast(`Archivo cargado: ${file.name}`, 'success');
+        setStudioStatus(`File '${file.name}' loaded into editor.`, true);
+        showToast(`Loaded: ${file.name}`, 'success');
       } catch (err) {
-        setStudioStatus(`Archivo no válido: ${err.message}`, false);
-        showToast('El archivo no contiene un JSON válido', 'error');
+        setStudioStatus(`Invalid file format: ${err.message}`, false);
+        showToast('File does not contain valid JSON', 'error');
       }
     };
     reader.readAsText(file);
-    e.target.value = ''; // Reset input so same file can be re-uploaded
+    e.target.value = '';
   }
 
   function resetToDefaultLesson() {
     if (state.defaultLessonData) {
       setLessonData(JSON.parse(JSON.stringify(state.defaultLessonData)));
-      setStudioStatus('Lección por defecto restablecida.', true);
-      showToast('Lección restablecida a la versión inicial', 'success');
+      setStudioStatus('Default lesson restored.', true);
+      showToast('Default lesson restored', 'success');
     }
   }
 
@@ -1168,16 +1199,18 @@
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().then(() => {
         state.isFullscreen = true;
-        DOM.fullscreenIcon.textContent = '🗗';
+        DOM.fullscreenIcon.innerHTML = ICONS.minimize;
         DOM.stageCanvas.classList.add('is-fullscreen');
+        DOM.stageWrapper.classList.add('is-fullscreen-wrapper');
       }).catch(err => {
         console.warn('Fullscreen request failed', err);
       });
     } else {
       document.exitFullscreen().then(() => {
         state.isFullscreen = false;
-        DOM.fullscreenIcon.textContent = '⛶';
+        DOM.fullscreenIcon.innerHTML = ICONS.maximize;
         DOM.stageCanvas.classList.remove('is-fullscreen');
+        DOM.stageWrapper.classList.remove('is-fullscreen-wrapper');
       });
     }
   }
@@ -1188,12 +1221,12 @@
   }
 
   // --------------------------------------------------------------------------
-  // 10. Toast Notification System
+  // 10. Toast Notification System (No Emojis)
   // --------------------------------------------------------------------------
   function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    const icon = type === 'success' ? '✅' : (type === 'error' ? '⚠️' : 'ℹ️');
+    const icon = type === 'success' ? ICONS.circleCheck : (type === 'error' ? ICONS.warning : ICONS.bulb);
     toast.innerHTML = `<span>${icon}</span><span>${escapeHtml(message)}</span>`;
 
     DOM.toastContainer.appendChild(toast);
@@ -1206,7 +1239,6 @@
     }, 2800);
   }
 
-  // Web Audio Tone Synthesis (Subtle audio feedback)
   function playChime(freq = 520) {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -1225,7 +1257,7 @@
       osc.start();
       osc.stop(ctx.currentTime + 0.25);
     } catch (_) {
-      // Audio context silenced or blocked, silently pass
+      // Audio context silenced or blocked
     }
   }
 
@@ -1244,7 +1276,6 @@
   // --------------------------------------------------------------------------
   function initKeyboardListeners() {
     window.addEventListener('keydown', (e) => {
-      // If typing inside an input or textarea, ignore navigation keys
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
         if (e.key === 'Escape') closeStudio();
         return;
@@ -1305,8 +1336,9 @@
     document.addEventListener('fullscreenchange', () => {
       const isFull = !!document.fullscreenElement;
       state.isFullscreen = isFull;
-      DOM.fullscreenIcon.textContent = isFull ? '🗗' : '⛶';
+      DOM.fullscreenIcon.innerHTML = isFull ? ICONS.minimize : ICONS.maximize;
       DOM.stageCanvas.classList.toggle('is-fullscreen', isFull);
+      DOM.stageWrapper.classList.toggle('is-fullscreen-wrapper', isFull);
     });
   }
 
@@ -1355,7 +1387,7 @@
         "subtitle": "Guía práctica de uso coloquial, matices esenciales y expresiones clave en España",
         "backgroundImage": "media/madrid_puerta_sol.svg",
         "badge": "Español Peninsular • Nivel B1-B2",
-        "notes": "Profesor: Iniciar la sesión preguntando a los alumnos qué significa 'quedar' para ellos. Advertir que es uno de los verbos con más acepciones diferentes en el español de España."
+        "notes": "Teacher notes: Introduce the learning goals. Mention that 'quedar' is one of the top 5 most versatile verbs in Spain."
       },
       {
         "slideId": "slide-02",
@@ -1371,7 +1403,7 @@
         "image": "media/spain_cafe.svg",
         "alt": "Cafetería tradicional con terraza en Madrid",
         "caption": "Contexto comunicativo: vida social y planes cotidianos en Madrid",
-        "notes": "Profesor: Leer los objetivos con el grupo. Pedir a un voluntario que recuerde la diferencia entre verbos pronominales y no pronominales."
+        "notes": "Teacher notes: Gauge students' prior knowledge of pronominal verbs."
       },
       {
         "slideId": "slide-03",
@@ -1389,7 +1421,7 @@
           ],
           "caution": "¡Cuidado! No confundir con 'conocer a alguien' (primera vez) ni 'reunirse' (ámbito laboral o formal)."
         },
-        "notes": "Profesor: Resaltar que '¿Quedamos?' es la forma estándar e informal más natural de quedar. En Hispanoamérica es más habitual 'verse con' o 'juntarse'."
+        "notes": "Teacher notes: Emphasize that 'quedar con' implies agreed rendezvous."
       },
       {
         "slideId": "slide-04",
@@ -1417,7 +1449,7 @@
             "Apropiarse o elegir: «Entre los dos abrigos, me quedo con el azul.»"
           ]
         },
-        "notes": "Profesor: Hacer que dos alumnos lean cada lado y propongan un contraejemplo inmediato."
+        "notes": "Teacher notes: Key distinction. Contrast 'quedar' and 'quedarse'."
       },
       {
         "slideId": "slide-05",
@@ -1432,7 +1464,7 @@
           { "word": "Quedarse con ganas", "translation": "To be left wanting more / eager to repeat" },
           { "word": "Terraza", "translation": "Outdoor street seating area of a bar" }
         ],
-        "notes": "Profesor: Clave de lectura. Identificar con los estudiantes los 5 usos distintos de quedar y quedarse que aparecen destacados en el texto."
+        "notes": "Teacher notes: Ask students to identify each distinct meaning of quedar used in the text."
       },
       {
         "slideId": "slide-06",
@@ -1440,7 +1472,7 @@
         "heading": "4. Práctica Interactiva: Rellena los huecos",
         "instructions": "Haz clic sobre cada hueco vacío para revelar la forma correcta y su justificación.",
         "gapText": "Ayer [quedé] con Carlos en el centro para comer. Fuimos a la tienda de deportes y las zapatillas rojas le [quedaban] perfectas, pero solo [quedaba] un par de su talla. Después, como estábamos cansadísimos, yo me [quedé] en casa viendo una película y nos [quedamos] dormidos a mitad del documental.",
-        "notes": "Profesor: Pedir a los alumnos que antes de hacer clic justifiquen por qué se usa la forma pronominal o no pronominal en cada caso."
+        "notes": "Teacher notes: Have students justify why the reflexive form is used in each case before clicking."
       },
       {
         "slideId": "slide-07",
@@ -1449,7 +1481,7 @@
         "instructions": "Lee la situación cotidiana, debate tu respuesta con tu compañero y pulsa el botón para verificar.",
         "question": "Tu compañero de piso aparece con unas gafas de sol nuevas y te pregunta: «¿Qué tal? ¿Cómo las ves?». Quieres decirle que le sientan fenomenal y favorecen su rostro. ¿Qué frase es la más idiomática en España?",
         "answer": "«¡Te quedan genial!» o «¡Te quedan de cine / de maravilla!». En España empleamos el verbo 'quedar' como verbo tipo gustar para indicar si una prenda o complemento favorece a alguien.",
-        "notes": "Profesor: Explicar que la construcción es idéntica a 'gustar': A mí me queda bien, a ti te queda grande, a ella le queda largo."
+        "notes": "Teacher notes: Point out that 'quedar bien/mal' works syntactically like 'gustar'."
       },
       {
         "slideId": "slide-08",
@@ -1468,7 +1500,7 @@
             ["Ellos / Ellas / Ustedes", "se quedan", "they stay, you all stay", "Ellos se quedan sin palabras."]
           ]
         },
-        "notes": "Profesor: Llamar la atención sobre la tilde en 'quedáis' (vocal abierta 'a' con acento en diptongo decreciente)."
+        "notes": "Teacher notes: Highlight the accent on 'quedáis' for vosotros."
       },
       {
         "slideId": "slide-09",
@@ -1480,7 +1512,7 @@
         "image": "media/phone_call.svg",
         "alt": "Javi y Carmen hablando por teléfono sobre sus planes de noche",
         "transcript": "— ¡Hola Javi! Oye, ¿al final qué hacemos esta noche? ¿Quedamos en tu casa o en el centro de Madrid?\n— ¡Hola Carmen! Pues mira, mejor quedamos en Alonso Martínez sobre las ocho y media. Es que todavía me queda por terminar un informe de la oficina.\n— Perfecto. Por cierto, ¿queda sitio en el coche de Marcos para ir a la cena?\n— Sí, no te preocupes, le quedan dos plazas libres. ¡Hasta luego y nos vemos allí!",
-        "notes": "Profesor: Reproducir el audio dos veces sin desvelar la transcripción. Preguntar: 1) ¿A qué hora quedan? 2) ¿Por qué no puede antes Javi? 3) ¿Quedan plazas en el coche?"
+        "notes": "Teacher notes: Play audio twice before revealing transcript."
       },
       {
         "slideId": "slide-10",
@@ -1514,7 +1546,7 @@
             "target": "Llegar a un acuerdo o resolución mutua."
           }
         ],
-        "notes": "Profesor: Dinámica en parejas: un alumno arrastra y el otro debe inventar una frase parecida con el mismo significado."
+        "notes": "Teacher notes: Check student pairing accuracy and have them create sentences for each meaning."
       },
       {
         "slideId": "slide-11",
@@ -1531,7 +1563,7 @@
         "tip": "Consejo lingüístico: Incluye expresiones como «¿A qué hora quedamos?», «No me queda saldo» o «Te queda genial».",
         "image": "media/homework_study.svg",
         "alt": "Checklist de deberes de español",
-        "notes": "Profesor: Recordar los criterios de evaluación: corrección gramatical (30%), variedad de usos de quedar (40%), pronunciación y entonación en audio (30%)."
+        "notes": "Teacher notes: Assessment criteria: grammar accuracy (30%), variety of 'quedar' uses (40%), oral presentation (30%)."
       }
     ];
   }
@@ -1545,7 +1577,6 @@
     loadInitialLesson();
   }
 
-  // Run on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

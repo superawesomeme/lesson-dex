@@ -24,5 +24,5 @@
   <text x="560" y="320" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="#1e293b" text-anchor="middle">Carmen</text>
   <!-- Dialogue badge -->
   <rect x="250" y="380" width="300" height="60" rx="30" fill="#ffffff" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.07))"/>
-  <text x="400" y="418" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#4f46e5" text-anchor="middle">📞 «¿A qué hora quedamos?»</text>
+  <text x="400" y="418" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#4f46e5" text-anchor="middle">«¿A qué hora quedamos?»</text>
 </svg>
