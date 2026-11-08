@@ -1,6 +1,6 @@
 /* ==========================================================================
    LESSON DEX - STYLESHEET (UK English & Classroom Visibility)
-   Modern Presentation Player & Offline Studio
+   Standard Non-Overlapping Layout (Zero Overlap Guaranteed)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -26,8 +26,8 @@
 
   /* Surfaces & Backgrounds */
   --bg-app: #0b0f19;          /* Deep theatrical slate backdrop */
-  --bg-chrome: rgba(17, 24, 39, 0.94); /* Floating translucent glass chrome */
-  --bg-chrome-border: rgba(255, 255, 255, 0.08);
+  --bg-chrome: #111827;       /* Solid chrome topbar & bottombar */
+  --bg-chrome-border: #1f2937;
   --bg-stage-outer: #030712;
   --slide-bg: #ffffff;        /* High-contrast crisp canvas for projection */
   --slide-surface: #f8fafc;
@@ -63,7 +63,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. Reset & App Shell Layout
+   2. Reset & App Shell Layout (Standard Flexbox Flow - Zero Overlap)
    -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -83,9 +83,10 @@ html, body {
 }
 
 .app-body {
-  position: relative;
-  width: 100vw;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+  width: 100vw;
   user-select: none;
   overflow: hidden;
 }
@@ -102,91 +103,22 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   3. Auto-hide Header & Footer (Floating Translucent Glass Bars)
+   3. Header Navigation Bar (Permanent Structural Header)
    -------------------------------------------------------------------------- */
-/* Edge sensors for hovering to reveal */
-.edge-sensor {
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 24px;
-  z-index: 60;
-  pointer-events: auto;
-}
-
-.sensor-top { top: 0; }
-.sensor-bottom { bottom: 0; }
-
 .app-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 54px;
+  height: 56px;
+  min-height: 56px;
+  flex-shrink: 0;
   background: var(--bg-chrome);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--bg-chrome-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 1.25rem;
-  z-index: 50;
-  transform: translateY(0);
-  opacity: 1;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+  z-index: 20;
+  position: relative;
 }
 
-.progression-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 54px;
-  background: var(--bg-chrome);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--bg-chrome-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.25rem;
-  z-index: 50;
-  transform: translateY(0);
-  opacity: 1;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-  gap: 1.25rem;
-}
-
-/* When Auto-hidden */
-body.bars-hidden .app-header {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-body.bars-hidden .progression-bar {
-  transform: translateY(100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Hovering edge sensor reveals bars smoothly */
-.sensor-top:hover ~ .app-header,
-.app-header:hover {
-  transform: translateY(0) !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-.sensor-bottom:hover ~ .progression-bar,
-.progression-bar:hover {
-  transform: translateY(0) !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
-/* Header Contents */
 .header-left {
   display: flex;
   align-items: center;
@@ -305,12 +237,6 @@ body.bars-hidden .progression-bar {
   border-color: #475569;
 }
 
-.btn-icon.is-active {
-  background: var(--primary);
-  border-color: var(--primary-hover);
-  color: #ffffff;
-}
-
 .btn-icon:disabled {
   opacity: 0.2;
   cursor: not-allowed;
@@ -420,18 +346,18 @@ body.bars-hidden .progression-bar {
 }
 
 /* --------------------------------------------------------------------------
-   4. Main Display Area & 16:9 Canvas (Generously Spaced Navigation)
+   4. Main Display Area & 16:9 Canvas (Zero Overlap with Header, Footer, Arrows)
    -------------------------------------------------------------------------- */
 .player-main {
-  width: 100vw;
-  height: 100vh;
+  flex: 1;
+  min-height: 0; /* Ensures flex child correctly respects parent height without overflowing */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   background: radial-gradient(circle at center, #172033 0%, #080c14 100%);
   overflow: hidden;
-  padding: 0;
+  padding: 1.25rem 1.5rem;
 }
 
 /* Stage Wrapper with Generous Clearance for Arrows */
@@ -439,21 +365,20 @@ body.bars-hidden .progression-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4rem; /* Generous 64px distance between arrows and slide canvas */
+  gap: 3.5rem; /* Generous 56px distance between navigation arrows and canvas */
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 0 1.5rem;
 }
 
-/* Generously Spaced Navigation Arrows */
+/* Dedicated Side Navigation Arrows */
 .stage-nav-arrow {
   position: static;
   flex-shrink: 0;
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: rgba(30, 41, 59, 0.65);
+  background: rgba(30, 41, 59, 0.7);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -464,32 +389,32 @@ body.bars-hidden .progression-bar {
   cursor: pointer;
   transition: all var(--transition-normal);
   outline: none;
-  opacity: 0.45; /* Subtle when idle so it never distracts */
-}
-
-body:not(.bars-hidden) .stage-nav-arrow,
-.stage-nav-arrow:hover {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .stage-nav-arrow:hover:not(:disabled) {
+  opacity: 1;
   background: var(--primary);
   border-color: var(--primary);
-  transform: scale(1.1);
-  box-shadow: 0 0 22px var(--primary-glow);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px var(--primary-glow);
 }
 
 .stage-nav-arrow:disabled {
-  opacity: 0.12;
+  opacity: 0.15;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* Locked 16:9 Aspect Ratio Container */
 .stage-canvas {
-  /* Strict 16:9 math leaving 80vh vertical space and subtracting 320px for side arrows + generous gaps */
-  width: min(calc(100vw - 320px), calc(80vh * 16 / 9));
-  height: min(calc((100vw - 320px) * 9 / 16), 80vh);
+  /*
+    Math guaranteeing ZERO overlap:
+    - Vertical: Height capped at calc(100vh - 152px), leaving comfortable padding between canvas and header/footer
+    - Horizontal: Width capped at calc(100vw - 280px), reserving space for side arrows and gaps
+  */
+  width: min(calc(100vw - 280px), calc((100vh - 152px) * 16 / 9));
+  height: min(calc((100vw - 280px) * 9 / 16), calc(100vh - 152px));
   aspect-ratio: 16 / 9;
   flex-shrink: 0;
   
@@ -510,6 +435,16 @@ body:not(.bars-hidden) .stage-nav-arrow,
 }
 
 /* Fullscreen mode scaling */
+:fullscreen .app-header,
+:fullscreen .progression-bar {
+  display: none !important;
+}
+
+:fullscreen .player-main {
+  height: 100vh;
+  padding: 0;
+}
+
 :fullscreen .stage-wrapper,
 .stage-wrapper.is-fullscreen-wrapper {
   gap: 0;
@@ -529,7 +464,7 @@ body:not(.bars-hidden) .stage-nav-arrow,
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 :fullscreen .stage-nav-arrow:hover {
@@ -549,8 +484,23 @@ body:not(.bars-hidden) .stage-nav-arrow,
 }
 
 /* --------------------------------------------------------------------------
-   5. Bottom Progression Bar Elements
+   5. Bottom Progression Bar (Permanent Structural Footer)
    -------------------------------------------------------------------------- */
+.progression-bar {
+  height: 56px;
+  min-height: 56px;
+  flex-shrink: 0;
+  background: var(--bg-chrome);
+  border-top: 1px solid var(--bg-chrome-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 20;
+  position: relative;
+  gap: 1.25rem;
+}
+
 .progression-info {
   display: flex;
   align-items: center;
@@ -1957,8 +1907,7 @@ kbd {
   .player-main,
   .progression-bar,
   .studio-modal,
-  .toast-container,
-  .edge-sensor {
+  .toast-container {
     display: none !important;
   }
 
