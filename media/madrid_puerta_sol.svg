@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="85%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+    <linearGradient id="building" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sky)"/>
+  <!-- Sun -->
+  <circle cx="600" cy="420" r="120" fill="#fef08a" opacity="0.85"/>
+  <!-- Madrid skyline / Real Casa de Correos silhouette -->
+  <path d="M0,675 L0,520 L150,520 L150,480 L220,480 L220,520 L350,520 L350,450 L420,450 L420,520 L520,520 L520,380 L560,380 L560,320 L600,260 L640,320 L640,380 L680,380 L680,520 L800,520 L800,470 L870,470 L870,520 L1020,520 L1020,490 L1100,490 L1100,520 L1200,520 L1200,675 Z" fill="#0f172a" opacity="0.95"/>
+  <!-- Clock tower detail -->
+  <circle cx="600" cy="350" r="20" fill="#f8fafc"/>
+  <!-- Plaza ground -->
+  <rect y="600" width="1200" height="75" fill="#020617"/>
+  <text x="600" y="640" font-family="system-ui, sans-serif" font-size="24" fill="#94a3b8" text-anchor="middle" letter-spacing="4">MADRID • PUERTA DEL SOL</text>
+</svg>

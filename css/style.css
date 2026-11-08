@@ -1,0 +1,1867 @@
+/* ==========================================================================
+   LESSON DEX - STYLESHEET
+   Modern EdTech Presentation Player & Offline Studio
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand / Palette (Clean Modern EdTech) */
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
+  --primary-glow: rgba(79, 70, 229, 0.25);
+  
+  --secondary: #0ea5e9;
+  --secondary-hover: #0284c7;
+  --secondary-light: #e0f2fe;
+
+  --accent-emerald: #10b981;
+  --accent-emerald-light: #ecfdf5;
+  --accent-amber: #f59e0b;
+  --accent-amber-light: #fffbeb;
+  --accent-rose: #f43f5e;
+  --accent-rose-light: #fff1f2;
+
+  /* Surfaces & Backgrounds */
+  --bg-app: #0b0f19;          /* Deep theatrical slate backdrop */
+  --bg-chrome: #111827;       /* Topbar and bottombar surface */
+  --bg-chrome-border: #1f2937;
+  --bg-stage-outer: #030712;
+  --slide-bg: #ffffff;        /* High-contrast crisp canvas for projection */
+  --slide-surface: #f8fafc;
+  --slide-surface-alt: #f1f5f9;
+  --slide-border: #e2e8f0;
+
+  /* Typography Colors */
+  --text-dark: #0f172a;
+  --text-dark-muted: #475569;
+  --text-dark-light: #94a3b8;
+  --text-white: #ffffff;
+  --text-white-muted: #cbd5e1;
+
+  /* Fonts & Shadows */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-canvas: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & App Shell Layout
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Header Navigation Bar
+   -------------------------------------------------------------------------- */
+.app-header {
+  height: 56px;
+  min-height: 56px;
+  background: var(--bg-chrome);
+  border-bottom: 1px solid var(--bg-chrome-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 20;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-icon {
+  font-size: 1.25rem;
+}
+
+.brand-accent {
+  color: var(--primary);
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.lesson-badge {
+  background: rgba(79, 70, 229, 0.15);
+  color: #a5b4fc;
+  border: 1px solid rgba(165, 180, 252, 0.2);
+}
+
+.badge-studio {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+  border: 1px solid rgba(252, 211, 77, 0.3);
+}
+
+.header-center {
+  flex: 1;
+  text-align: center;
+  padding: 0 1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.current-slide-heading {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-white-muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Common Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  outline: none;
+  font-family: inherit;
+  color: var(--text-white);
+  background: transparent;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary-hover);
+  box-shadow: 0 2px 4px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+.btn-secondary:hover {
+  background: #334155;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #cbd5e1;
+  border-color: #374151;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+.btn-ghost {
+  color: #94a3b8;
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+}
+
+.btn-icon:hover {
+  background: #334155;
+  color: #ffffff;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.775rem;
+}
+
+.btn-success {
+  background: #059669;
+  color: #ffffff;
+  border-color: #047857;
+}
+
+.btn-success:hover {
+  background: #047857;
+}
+
+/* --------------------------------------------------------------------------
+   4. 16:9 Presentation Canvas Math & Centering Architecture
+   -------------------------------------------------------------------------- */
+.player-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: radial-gradient(circle at center, #172033 0%, #080c14 100%);
+  overflow: hidden;
+  padding: 0.75rem 1rem;
+}
+
+.stage-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Locked 16:9 Aspect Ratio Container */
+.stage-canvas {
+  /* Strict 16:9 aspect-ratio scaling math to fit viewport perfectly */
+  width: min(94vw, calc((100vh - 130px) * 16 / 9));
+  height: min(calc(94vw * 9 / 16), calc(100vh - 130px));
+  aspect-ratio: 16 / 9;
+  
+  position: relative;
+  background-color: var(--slide-bg);
+  color: var(--text-dark);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-canvas);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stage-canvas:focus-visible {
+  box-shadow: 0 0 0 3px var(--primary), var(--shadow-canvas);
+}
+
+/* Fullscreen mode scaling */
+:fullscreen .stage-canvas,
+.stage-canvas.is-fullscreen {
+  width: min(100vw, calc(100vh * 16 / 9));
+  height: min(calc(100vw * 9 / 16), 100vh);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+:fullscreen .app-header,
+:fullscreen .progression-bar {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+:fullscreen:hover .app-header,
+:fullscreen:hover .progression-bar {
+  opacity: 1;
+}
+
+/* Viewport for slide contents */
+.slide-viewport {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  user-select: text;
+}
+
+/* Navigation Arrows Flanking the Canvas */
+.stage-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  opacity: 0.6;
+}
+
+.stage-nav-arrow:hover:not(:disabled) {
+  opacity: 1;
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.stage-nav-arrow:disabled {
+  opacity: 0.15;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.stage-nav-prev {
+  left: calc((100% - min(94vw, calc((100vh - 130px) * 16 / 9))) / 2 - 28px);
+}
+
+.stage-nav-next {
+  right: calc((100% - min(94vw, calc((100vh - 130px) * 16 / 9))) / 2 - 28px);
+}
+
+@media (max-width: 900px) {
+  .stage-nav-prev { left: 8px; }
+  .stage-nav-next { right: 8px; }
+}
+
+/* --------------------------------------------------------------------------
+   5. Bottom Progression History Track & Controls
+   -------------------------------------------------------------------------- */
+.progression-bar {
+  height: 56px;
+  min-height: 56px;
+  background: var(--bg-chrome);
+  border-top: 1px solid var(--bg-chrome-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  z-index: 20;
+  gap: 1.5rem;
+}
+
+.progression-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 170px;
+}
+
+.slide-counter-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.slide-type-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-xs);
+  background: #1f2937;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+/* Progression Track (Clickable Pills / Steps) */
+.progression-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  flex: 1;
+  max-width: 680px;
+  overflow-x: auto;
+  padding: 0.25rem;
+  scrollbar-width: none;
+}
+
+.progression-track::-webkit-scrollbar {
+  display: none;
+}
+
+.track-step {
+  height: 10px;
+  width: 24px;
+  border-radius: var(--radius-full);
+  background: #374151;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-bounce);
+  position: relative;
+  outline: none;
+  padding: 0;
+}
+
+.track-step:hover {
+  background: #6b7280;
+  transform: scaleY(1.3);
+}
+
+.track-step.is-active {
+  width: 44px;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.track-step.is-visited {
+  background: #4b5563;
+}
+
+.progression-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 170px;
+  justify-content: flex-end;
+}
+
+/* --------------------------------------------------------------------------
+   6. Universal Slide Canvas Elements & Layout Base
+   -------------------------------------------------------------------------- */
+.slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2.25rem 2.75rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ffffff;
+  color: var(--text-dark);
+  box-sizing: border-box;
+  animation: slideFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Universal Slide Header */
+.slide-header {
+  margin-bottom: 1.25rem;
+  flex-shrink: 0;
+}
+
+.slide-header-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.4rem;
+}
+
+.slide-heading {
+  font-size: clamp(1.4rem, 2.4cqi, 1.95rem);
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.slide-instructions-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.85rem;
+  background: #f8fafc;
+  border-left: 3px solid var(--secondary);
+  border-radius: var(--radius-xs);
+  font-size: 0.85rem;
+  color: var(--text-dark-muted);
+}
+
+.slide-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   7. The 11 Slide Layout Specifications
+   -------------------------------------------------------------------------- */
+
+/* Layout 1: INTRO */
+.slide-intro {
+  padding: 0;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.82) 0%, rgba(30, 27, 75, 0.9) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 4rem;
+}
+
+.intro-badge {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #e0e7ff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 0.4rem 1.1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.intro-title {
+  font-size: clamp(2.2rem, 4.2cqi, 3.4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  max-width: 900px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.intro-subtitle {
+  font-size: clamp(1rem, 1.8cqi, 1.35rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #cbd5e1;
+  max-width: 720px;
+  margin-bottom: 2rem;
+}
+
+.intro-start-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: var(--radius-full);
+}
+
+/* Layout 2: OBJECTIVES */
+.layout-objectives-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2rem;
+  height: 100%;
+  align-items: center;
+}
+
+.objectives-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.objectives-lead {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.objectives-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.objectives-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.925rem;
+  line-height: 1.45;
+  color: #334155;
+}
+
+.objective-check-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: #dcfce7;
+  color: #15803d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-top: 1px;
+}
+
+.media-frame {
+  height: 100%;
+  max-height: 320px;
+  background: #f1f5f9;
+  border-radius: var(--radius-md);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.media-frame img, .media-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex: 1;
+}
+
+.media-caption {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  color: #64748b;
+  text-align: center;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* Layout 3: HOMEWORK */
+.layout-homework-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  height: 100%;
+  align-items: center;
+}
+
+.homework-card {
+  background: #faf5ff;
+  border: 1px solid #e9d5ff;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.homework-badge {
+  align-self: flex-start;
+  background: #9333ea;
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.homework-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #581c87;
+}
+
+.homework-tasks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.homework-tasks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: #3b0764;
+}
+
+.homework-task-num {
+  background: #e9d5ff;
+  color: #6b21a8;
+  font-weight: bold;
+  font-size: 0.75rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.homework-tip {
+  margin-top: 0.4rem;
+  padding: 0.6rem 0.8rem;
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #9333ea;
+  font-size: 0.8rem;
+  color: #6b21a8;
+  font-style: italic;
+}
+
+/* Layout 4: ONE-PANEL */
+.one-panel-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.one-panel-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.one-panel-tag {
+  align-self: flex-start;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.one-panel-lead {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.45;
+}
+
+.formula-box {
+  background: #eff6ff;
+  border: 1px dashed #3b82f6;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.dialogue-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-style: italic;
+  font-size: 0.925rem;
+  color: #334155;
+  border-left: 4px solid var(--primary);
+}
+
+.caution-note {
+  font-size: 0.825rem;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Layout 5: TWO-PANEL */
+.layout-two-panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem;
+  height: 100%;
+}
+
+.panel-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  overflow-y: auto;
+}
+
+.panel-card.panel-accent-left {
+  border-top: 4px solid #4f46e5;
+}
+
+.panel-card.panel-accent-right {
+  border-top: 4px solid #06b6d4;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.panel-points {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.panel-points li {
+  padding: 0.6rem 0.75rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #334155;
+}
+
+/* Layout 6: FILL-GAP (Click to Reveal Interactive) */
+.fill-gap-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.fill-gap-card {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.gap-sentence {
+  font-size: clamp(1.15rem, 2cqi, 1.45rem);
+  line-height: 2.2;
+  color: #1e293b;
+}
+
+/* Clickable Blank Slot */
+.gap-blank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  height: 38px;
+  padding: 0 0.85rem;
+  margin: 0 0.3rem;
+  border-radius: var(--radius-sm);
+  background: #eef2ff;
+  border: 2px dashed #6366f1;
+  color: #4f46e5;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.gap-blank:hover:not(.revealed) {
+  background: #e0e7ff;
+  border-color: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.15);
+}
+
+.gap-blank.revealed {
+  background: #dcfce7;
+  border: 2px solid #16a34a;
+  color: #15803d;
+  cursor: default;
+  animation: popReveal 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popReveal {
+  0% { transform: scale(0.8); }
+  70% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.fill-gap-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Layout 7: QUESTION */
+.question-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.question-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.question-prompt {
+  font-size: clamp(1.1rem, 2cqi, 1.35rem);
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.55;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.question-mark-icon {
+  background: var(--primary);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.reveal-answer-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.925rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.reveal-answer-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.answer-card {
+  background: #ecfdf5;
+  border: 2px solid #10b981;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  animation: answerSlide 0.3s ease-out;
+}
+
+@keyframes answerSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.answer-lead {
+  font-weight: 800;
+  color: #065f46;
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.answer-text {
+  font-size: 0.95rem;
+  color: #047857;
+  line-height: 1.5;
+}
+
+/* Layout 8: MATCH (Drag and Drop) */
+.match-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  height: 100%;
+}
+
+.match-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.match-column-title {
+  font-size: 0.825rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+/* Draggable item chips */
+.match-drag-item {
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: grab;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  user-select: none;
+}
+
+.match-drag-item:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  transform: translateX(4px);
+}
+
+.match-drag-item.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.match-drag-item.matched {
+  opacity: 0.5;
+  border-color: #10b981;
+  background: #f0fdf4;
+  cursor: default;
+  pointer-events: none;
+  text-decoration: line-through;
+}
+
+.drag-grip {
+  color: #94a3b8;
+  font-size: 1rem;
+}
+
+/* Drop Target Slots */
+.match-drop-target {
+  background: #f8fafc;
+  border: 2px dashed #94a3b8;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #334155;
+  transition: all var(--transition-fast);
+}
+
+.match-drop-target.drag-over {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  border-style: solid;
+  transform: scale(1.02);
+}
+
+.match-drop-target.matched-correct {
+  border: 2px solid #10b981;
+  background: #ecfdf5;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.match-target-text {
+  flex: 1;
+}
+
+.match-status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+}
+
+/* Layout 9: LISTEN */
+.layout-listen-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 2rem;
+  height: 100%;
+}
+
+.listen-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+
+.listen-image-container {
+  flex: 1;
+  min-height: 140px;
+  background: #f1f5f9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.listen-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.listen-audio-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.listen-audio-label {
+  font-size: 0.775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.04em;
+}
+
+.listen-audio-player {
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-full);
+  outline: none;
+}
+
+/* Blurred Transcript Container */
+.listen-right-col {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.transcript-wrapper {
+  flex: 1;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.transcript-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.transcript-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.transcript-body {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #1e293b;
+  white-space: pre-line;
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+.transcript-body.is-blurred {
+  filter: blur(7px);
+  user-select: none;
+}
+
+.transcript-overlay-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: opacity 0.2s ease;
+}
+
+/* Layout 10: READING */
+.layout-reading-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.75rem;
+  height: 100%;
+}
+
+.reading-text-pane {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.75rem;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #1e293b;
+  scrollbar-width: thin;
+}
+
+.reading-text-pane p {
+  margin-bottom: 1rem;
+}
+
+.reading-text-pane p:last-child {
+  margin-bottom: 0;
+}
+
+.vocabulary-pane {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.vocab-pane-header {
+  padding: 0.75rem 1rem;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.825rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #475569;
+  letter-spacing: 0.04em;
+}
+
+.vocab-table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.vocab-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.vocab-table th {
+  background: #f8fafc;
+  padding: 0.6rem 0.85rem;
+  font-weight: 700;
+  color: #334155;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.vocab-table td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.vocab-table tr:hover td {
+  background: #f8fafc;
+}
+
+.vocab-word {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Layout 11: CONJUGATION */
+.layout-conjugation-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 1.75rem;
+  height: 100%;
+}
+
+.conjugation-notes-pane {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.conjugation-lead {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.peninsular-focus-box {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: var(--radius-xs);
+  padding: 0.75rem 1rem;
+  font-size: 0.825rem;
+  color: #92400e;
+  line-height: 1.45;
+}
+
+.conjugation-table-pane {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tense-title-bar {
+  padding: 0.65rem 1rem;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.conjugation-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.conjugation-table th {
+  background: #f1f5f9;
+  padding: 0.6rem 0.85rem;
+  font-weight: 700;
+  color: #334155;
+  border-bottom: 2px solid #e2e8f0;
+  text-align: left;
+}
+
+.conjugation-table td {
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+.conjugation-table tr:nth-child(even) td {
+  background: #fbfcfe;
+}
+
+.verb-form {
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.verb-vosotros {
+  background: #eef2ff;
+  color: #4338ca;
+  font-weight: 800;
+}
+
+/* --------------------------------------------------------------------------
+   8. Lesson Builder Studio (Maker Mode) Modal & Drawer
+   -------------------------------------------------------------------------- */
+.studio-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.studio-modal.hidden {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.studio-dialog {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 980px;
+  height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.studio-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #182234;
+}
+
+.studio-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.studio-icon {
+  font-size: 1.8rem;
+}
+
+.studio-header h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.studio-subtitle {
+  font-size: 0.825rem;
+  color: #94a3b8;
+  margin-top: 0.2rem;
+}
+
+.studio-toolbar {
+  padding: 0.75rem 1.5rem;
+  background: #0f172a;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.studio-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.studio-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 1.25rem 1.5rem;
+  gap: 0.75rem;
+  background: #0b0f19;
+}
+
+.studio-editor-container {
+  flex: 1;
+  position: relative;
+  border: 1px solid #374151;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+#studio-json-editor {
+  width: 100%;
+  height: 100%;
+  background: #030712;
+  color: #a5f3fc;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  resize: none;
+  white-space: pre;
+  tab-size: 2;
+}
+
+.studio-feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+  color: #94a3b8;
+  padding: 0.4rem 0.5rem;
+}
+
+.status-indicator {
+  font-size: 0.75rem;
+}
+
+.status-indicator.ready { color: #10b981; }
+.status-indicator.error { color: #ef4444; }
+
+/* --------------------------------------------------------------------------
+   9. Keyboard Shortcuts Modal & Toast Notifications
+   -------------------------------------------------------------------------- */
+.modal-card {
+  background: #111827;
+  border: 1px solid #374151;
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-card-header {
+  padding: 1rem 1.25rem;
+  background: #182234;
+  border-bottom: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+}
+
+kbd {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 1px 0 #000;
+  padding: 0.15rem 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #ffffff;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 72px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: toastIn 0.25s ease-out;
+  pointer-events: auto;
+}
+
+.toast.toast-success {
+  border-left: 4px solid #10b981;
+}
+
+.toast.toast-error {
+  border-left: 4px solid #ef4444;
+}
+
+@keyframes toastIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   10. Print Mode (@media print) - A4 Formatting & Teacher Notes Reveal
+   -------------------------------------------------------------------------- */
+@media screen {
+  .print-container {
+    display: none !important;
+  }
+}
+
+@media print {
+  /* Hide all UI navigation, header, progression bar, modals */
+  .screen-only,
+  .app-header,
+  .player-main,
+  .progression-bar,
+  .studio-modal,
+  .toast-container {
+    display: none !important;
+  }
+
+  /* Reset layout constraints for print */
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  .print-container {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Each slide becomes an A4 page with page break */
+  .print-slide-page {
+    page-break-after: always;
+    break-after: page;
+    width: 100% !important;
+    min-height: 250mm;
+    padding: 15mm 20mm;
+    box-sizing: border-box;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .print-slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #334155;
+    padding-bottom: 8mm;
+    margin-bottom: 8mm;
+  }
+
+  .print-brand {
+    font-size: 14pt;
+    font-weight: 800;
+    color: #1e1b4b;
+  }
+
+  .print-slide-num {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #64748b;
+  }
+
+  .print-slide-content {
+    flex: 1;
+  }
+
+  /* Explicitly Reveal Notes Section Underneath Each Slide */
+  .print-teacher-notes {
+    display: block !important;
+    margin-top: 10mm;
+    padding: 6mm 8mm;
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 6px solid #4f46e5 !important;
+    border-radius: 4px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-teacher-notes-title {
+    font-size: 10pt;
+    font-weight: 800;
+    color: #1e1b4b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 3mm;
+  }
+
+  .print-teacher-notes-body {
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: #1e293b;
+  }
+
+  /* Reveal answers and unblur transcripts in print mode */
+  .transcript-body {
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  .transcript-overlay-hint {
+    display: none !important;
+  }
+
+  .gap-blank {
+    background: #e2e8f0 !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+  }
+
+  .answer-card {
+    display: block !important;
+    border: 1px solid #000 !important;
+  }
+}

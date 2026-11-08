@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="gradPhone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" rx="20" fill="#f1f5f9"/>
+  <!-- Left person avatar -->
+  <circle cx="240" cy="220" r="70" fill="#38bdf8"/>
+  <circle cx="240" cy="190" r="35" fill="#ffffff"/>
+  <path d="M 205 260 C 205 230 275 230 275 260 Z" fill="#ffffff"/>
+  <text x="240" y="320" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="#1e293b" text-anchor="middle">Javi</text>
+  <!-- Sound / Connection Waves -->
+  <g stroke="#6366f1" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M 360 200 C 380 180 420 180 440 200"/>
+    <path d="M 345 180 C 375 150 425 150 455 180"/>
+    <path d="M 330 160 C 370 120 430 120 470 160"/>
+  </g>
+  <!-- Right person avatar -->
+  <circle cx="560" cy="220" r="70" fill="#ec4899"/>
+  <circle cx="560" cy="190" r="35" fill="#ffffff"/>
+  <path d="M 525 260 C 525 230 595 230 595 260 Z" fill="#ffffff"/>
+  <text x="560" y="320" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="#1e293b" text-anchor="middle">Carmen</text>
+  <!-- Dialogue badge -->
+  <rect x="250" y="380" width="300" height="60" rx="30" fill="#ffffff" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.07))"/>
+  <text x="400" y="418" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#4f46e5" text-anchor="middle">📞 «¿A qué hora quedamos?»</text>
+</svg>

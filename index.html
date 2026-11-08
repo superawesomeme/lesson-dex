@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Dex | Modern Classroom Presentation Player & Studio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%234f46e5'/><text y='68' font-size='60' x='18' fill='white'>📖</text></svg>">
+</head>
+<body class="app-body">
+  <!-- Application Top Navigation Header (Screen Only) -->
+  <header class="app-header screen-only" role="banner">
+    <div class="header-left">
+      <div class="brand-logo" aria-label="Lesson Dex">
+        <span class="brand-icon">📚</span>
+        <span class="brand-title">Lesson <span class="brand-accent">Dex</span></span>
+      </div>
+      <span class="badge lesson-badge" id="header-lesson-title">Español: Verbo «Quedar»</span>
+    </div>
+
+    <div class="header-center">
+      <!-- Current Slide Title / Breadcrumb -->
+      <span class="current-slide-heading" id="header-slide-name">Cargando presentación...</span>
+    </div>
+
+    <div class="header-actions">
+      <button id="btn-shortcuts" class="btn btn-ghost" title="Ver atajos de teclado (Presiona ?)">
+        <span class="icon">⌨</span>
+        <span class="btn-label">Atajos</span>
+      </button>
+
+      <button id="btn-print" class="btn btn-secondary" title="Imprimir diapositivas con notas para el profesor">
+        <span class="icon">🖨</span>
+        <span class="btn-label">Imprimir / PDF</span>
+      </button>
+
+      <button id="btn-studio-toggle" class="btn btn-primary" title="Abrir editor JSON (Modo Estudio)">
+        <span class="icon">🛠</span>
+        <span class="btn-label">Studio (Maker)</span>
+      </button>
+
+      <button id="btn-fullscreen" class="btn btn-icon" title="Pantalla completa (F)" aria-label="Pantalla completa">
+        <span class="icon" id="fullscreen-icon">⛶</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Presentation Main Viewport & 16:9 Canvas (Screen Only) -->
+  <main class="player-main screen-only" id="player-main">
+    <div class="stage-wrapper" id="stage-wrapper">
+      
+      <!-- Side Navigation Arrow: Previous -->
+      <button id="stage-prev-btn" class="stage-nav-arrow stage-nav-prev" aria-label="Diapositiva anterior (Flecha izquierda)" title="Anterior (←)">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <!-- 16:9 Aspect Ratio Presentation Player Canvas -->
+      <div class="stage-canvas" id="stage-canvas" tabindex="0" role="region" aria-label="Pantalla de presentación">
+        <div id="slide-viewport" class="slide-viewport" aria-live="polite">
+          <!-- Slide dynamic content rendered here by js/app.js -->
+        </div>
+      </div>
+
+      <!-- Side Navigation Arrow: Next -->
+      <button id="stage-next-btn" class="stage-nav-arrow stage-nav-next" aria-label="Siguiente diapositiva (Flecha derecha o Espacio)" title="Siguiente (→ / Espacio)">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  </main>
+
+  <!-- Bottom Progression Track & Controls (Screen Only) -->
+  <footer class="progression-bar screen-only" role="region" aria-label="Barra de progreso de la presentación">
+    <div class="progression-info">
+      <span class="slide-counter-badge" id="slide-counter">Diapositiva 1 / 11</span>
+      <span class="slide-type-tag" id="slide-type-tag">intro</span>
+    </div>
+
+    <!-- Visual progression history: clickable pills/dots -->
+    <div class="progression-track" id="progression-track" role="tablist" aria-label="Navegación de diapositivas">
+      <!-- Dots dynamically injected by js/app.js -->
+    </div>
+
+    <div class="progression-controls">
+      <button id="footer-prev-btn" class="btn btn-sm btn-outline" title="Anterior (←)">
+        <span>← Anterior</span>
+      </button>
+      <button id="footer-next-btn" class="btn btn-sm btn-primary" title="Siguiente (→)">
+        <span>Siguiente →</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- Lesson Builder Studio Modal (Maker Mode) -->
+  <div id="studio-modal" class="studio-modal screen-only hidden" role="dialog" aria-modal="true" aria-labelledby="studio-title">
+    <div class="studio-dialog">
+      <header class="studio-header">
+        <div class="studio-header-title">
+          <span class="studio-icon">🛠</span>
+          <div>
+            <h2 id="studio-title">Lesson Builder Studio <span class="badge badge-studio">Maker Mode</span></h2>
+            <p class="studio-subtitle">Edita, pega o exporta el JSON de la lección para actualizar la presentación en tiempo real.</p>
+          </div>
+        </div>
+        <button id="btn-studio-close" class="btn btn-icon btn-ghost" aria-label="Cerrar Estudio">✕</button>
+      </header>
+
+      <div class="studio-toolbar">
+        <div class="studio-toolbar-group">
+          <button id="btn-studio-reset" class="btn btn-sm btn-outline" title="Recargar la lección inicial de Peninsular Spanish">
+            🔄 Lección por defecto
+          </button>
+          <button id="btn-studio-format" class="btn btn-sm btn-outline" title="Formatear e indentar el código JSON">
+            ✨ Formatear JSON
+          </button>
+          <label class="btn btn-sm btn-outline file-upload-btn" title="Subir un archivo .json desde tu ordenador">
+            📂 Importar archivo
+            <input type="file" id="studio-file-input" accept=".json,application/json" class="visually-hidden">
+          </label>
+        </div>
+
+        <div class="studio-toolbar-group">
+          <button id="btn-studio-export" class="btn btn-sm btn-secondary" title="Descargar como lesson.json">
+            💾 Exportar JSON
+          </button>
+          <button id="btn-studio-apply" class="btn btn-sm btn-success" title="Aplicar cambios al reproductor inmediatamente">
+            ⚡ Aplicar al Reproductor
+          </button>
+        </div>
+      </div>
+
+      <div class="studio-body">
+        <div class="studio-editor-container">
+          <label for="studio-json-editor" class="visually-hidden">Editor JSON de la lección</label>
+          <textarea id="studio-json-editor" spellcheck="false" placeholder="Pega aquí el JSON de la lección..."></textarea>
+        </div>
+        
+        <div id="studio-feedback" class="studio-feedback" aria-live="polite">
+          <span class="status-indicator ready">●</span>
+          <span id="studio-feedback-text">Listo para editar. Los 11 tipos de diapositiva son soportados.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyboard Shortcuts Cheat Sheet Modal -->
+  <div id="shortcuts-modal" class="studio-modal screen-only hidden" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
+    <div class="modal-card">
+      <div class="modal-card-header">
+        <h3 id="shortcuts-title">⌨ Atajos de Teclado</h3>
+        <button id="btn-shortcuts-close" class="btn btn-icon btn-ghost" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-card-body">
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>→</kbd> o <kbd>Espacio</kbd></span><span>Siguiente diapositiva</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>←</kbd></span><span>Diapositiva anterior</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>Inicio</kbd> / <kbd>Fin</kbd></span><span>Primera / Última diapositiva</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>F</kbd></span><span>Pantalla completa (Toggle)</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>E</kbd></span><span>Abrir / Cerrar Lesson Studio</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>P</kbd></span><span>Imprimir / Exportar a PDF</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>Esc</kbd></span><span>Cerrar ventanas emergentes</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toast-container" class="toast-container screen-only" aria-live="assertive"></div>
+
+  <!-- Print Mode Container (Explicitly reveals all 11 slides + teacher notes) -->
+  <div id="print-container" class="print-container" aria-hidden="true">
+    <!-- Dynamically populated by js/app.js for clean A4 printing -->
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>
