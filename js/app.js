@@ -1201,6 +1201,7 @@
         DOM.fullscreenIcon.innerHTML = ICONS.minimize;
         DOM.stageCanvas.classList.add('is-fullscreen');
         DOM.stageWrapper.classList.add('is-fullscreen-wrapper');
+        document.body.classList.add('is-fullscreen-app');
       }).catch(err => {
         console.warn('Fullscreen request failed', err);
       });
@@ -1210,6 +1211,7 @@
         DOM.fullscreenIcon.innerHTML = ICONS.maximize;
         DOM.stageCanvas.classList.remove('is-fullscreen');
         DOM.stageWrapper.classList.remove('is-fullscreen-wrapper');
+        document.body.classList.remove('is-fullscreen-app');
       });
     }
   }
@@ -1338,6 +1340,7 @@
       DOM.fullscreenIcon.innerHTML = isFull ? ICONS.minimize : ICONS.maximize;
       DOM.stageCanvas.classList.toggle('is-fullscreen', isFull);
       DOM.stageWrapper.classList.toggle('is-fullscreen-wrapper', isFull);
+      document.body.classList.toggle('is-fullscreen-app', isFull);
     });
   }
 

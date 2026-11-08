@@ -436,11 +436,14 @@ html, body {
 
 /* Fullscreen mode scaling */
 :fullscreen .app-header,
-:fullscreen .progression-bar {
+:fullscreen .progression-bar,
+.is-fullscreen-app .app-header,
+.is-fullscreen-app .progression-bar {
   display: none !important;
 }
 
-:fullscreen .player-main {
+:fullscreen .player-main,
+.is-fullscreen-app .player-main {
   height: 100vh;
   padding: 0;
 }
@@ -449,6 +452,7 @@ html, body {
 .stage-wrapper.is-fullscreen-wrapper {
   gap: 0;
   padding: 0;
+  position: relative;
 }
 
 :fullscreen .stage-canvas,
@@ -459,20 +463,63 @@ html, body {
   box-shadow: none;
 }
 
-:fullscreen .stage-nav-arrow {
+/* Fullscreen Slide Content Padding: Generous left & right buffer to prevent floating arrows covering content */
+:fullscreen .slide,
+.stage-canvas.is-fullscreen .slide,
+.is-fullscreen-app .slide {
+  padding-left: clamp(6.5rem, 8vw, 10rem);
+  padding-right: clamp(6.5rem, 8vw, 10rem);
+  padding-top: 2.25rem;
+  padding-bottom: 2rem;
+}
+
+:fullscreen .intro-overlay,
+.stage-canvas.is-fullscreen .intro-overlay,
+.is-fullscreen-app .intro-overlay {
+  padding-left: clamp(6.5rem, 8vw, 10rem);
+  padding-right: clamp(6.5rem, 8vw, 10rem);
+}
+
+:fullscreen .stage-nav-arrow,
+.stage-wrapper.is-fullscreen-wrapper .stage-nav-arrow,
+.is-fullscreen-app .stage-nav-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  opacity: 0.35;
+  opacity: 0.5;
+  background: rgba(15, 23, 42, 0.75);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
-:fullscreen .stage-nav-arrow:hover {
+:fullscreen .stage-nav-arrow:hover:not(:disabled),
+.stage-wrapper.is-fullscreen-wrapper .stage-nav-arrow:hover:not(:disabled),
+.is-fullscreen-app .stage-nav-arrow:hover:not(:disabled) {
   opacity: 1;
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-50%) scale(1.08);
 }
 
-:fullscreen .stage-nav-prev { left: 24px; }
-:fullscreen .stage-nav-next { right: 24px; }
+:fullscreen .stage-nav-arrow:disabled,
+.stage-wrapper.is-fullscreen-wrapper .stage-nav-arrow:disabled,
+.is-fullscreen-app .stage-nav-arrow:disabled {
+  opacity: 0.12;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+:fullscreen .stage-nav-prev,
+.stage-wrapper.is-fullscreen-wrapper .stage-nav-prev,
+.is-fullscreen-app .stage-nav-prev {
+  left: 24px;
+}
+
+:fullscreen .stage-nav-next,
+.stage-wrapper.is-fullscreen-wrapper .stage-nav-next,
+.is-fullscreen-app .stage-nav-next {
+  right: 24px;
+}
 
 /* Viewport for slide contents */
 .slide-viewport {
