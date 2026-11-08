@@ -8,8 +8,12 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0'/><path d='M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0'/><line x1='3' y1='6' x2='3' y2='19'/><line x1='12' y1='6' x2='12' y2='19'/><line x1='21' y1='6' x2='21' y2='19'/></svg>">
 </head>
 <body class="app-body">
-  <!-- Application Top Navigation Header (Screen Only) -->
-  <header class="app-header screen-only" role="banner">
+  <!-- Invisible Edge Sensor Trigger for Mouse Hover Re-appearance -->
+  <div class="edge-sensor sensor-top" aria-hidden="true"></div>
+  <div class="edge-sensor sensor-bottom" aria-hidden="true"></div>
+
+  <!-- Application Top Navigation Header (Screen Only - Auto-hide Floating Bar) -->
+  <header class="app-header screen-only" id="app-header" role="banner">
     <div class="header-left">
       <div class="brand-logo" aria-label="Lesson Dex">
         <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -30,6 +34,17 @@
 
     <!-- Symbols-only Header Actions -->
     <div class="header-actions">
+      <button id="btn-autohide-toggle" class="btn btn-icon" title="Toggle Auto-hide UI (H)" aria-label="Toggle Auto-hide UI">
+        <span id="autohide-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="3" x2="21" y2="21" />
+            <path d="M15 4.5l-3.249 3.249m-2.57 1.433l-2.181 .818l-1.5 1.5l7 7l1.5 -1.5l.82 -2.18m1.43 -2.568l3.25 -3.252" />
+            <line x1="9" y1="15" x2="4.5" y2="19.5" />
+            <line x1="14.5" y1="4" x2="20" y2="9.5" />
+          </svg>
+        </span>
+      </button>
+
       <button id="btn-shortcuts" class="btn btn-icon" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="6" width="20" height="12" rx="2" />
@@ -74,9 +89,9 @@
   <main class="player-main screen-only" id="player-main">
     <div class="stage-wrapper" id="stage-wrapper">
       
-      <!-- Side Navigation Arrow: Previous (Non-overlapping flex sibling) -->
+      <!-- Side Navigation Arrow: Previous (Generously spaced outside canvas) -->
       <button id="stage-prev-btn" class="stage-nav-arrow stage-nav-prev" aria-label="Previous Slide (Left Arrow)" title="Previous (←)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 6l-6 6l6 6" />
         </svg>
       </button>
@@ -88,17 +103,17 @@
         </div>
       </div>
 
-      <!-- Side Navigation Arrow: Next (Non-overlapping flex sibling) -->
+      <!-- Side Navigation Arrow: Next (Generously spaced outside canvas) -->
       <button id="stage-next-btn" class="stage-nav-arrow stage-nav-next" aria-label="Next Slide (Right Arrow or Space)" title="Next (→ / Space)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 6l6 6l-6 6" />
         </svg>
       </button>
     </div>
   </main>
 
-  <!-- Bottom Progression Track & Controls (Screen Only) -->
-  <footer class="progression-bar screen-only" role="region" aria-label="Presentation Progression Bar">
+  <!-- Bottom Progression Track & Controls (Screen Only - Auto-hide Floating Bar) -->
+  <footer class="progression-bar screen-only" id="progression-bar" role="region" aria-label="Presentation Progression Bar">
     <div class="progression-info">
       <span class="slide-counter-badge" id="slide-counter">Slide 1 of 11</span>
       <span class="slide-type-tag" id="slide-type-tag">intro</span>
@@ -230,6 +245,7 @@
         <div class="shortcut-row"><span class="shortcut-keys"><kbd>←</kbd></span><span>Previous slide</span></div>
         <div class="shortcut-row"><span class="shortcut-keys"><kbd>Home</kbd> / <kbd>End</kbd></span><span>First / Last slide</span></div>
         <div class="shortcut-row"><span class="shortcut-keys"><kbd>F</kbd></span><span>Toggle fullscreen</span></div>
+        <div class="shortcut-row"><span class="shortcut-keys"><kbd>H</kbd></span><span>Toggle UI Auto-hide / Pin</span></div>
         <div class="shortcut-row"><span class="shortcut-keys"><kbd>E</kbd></span><span>Open / Close Studio</span></div>
         <div class="shortcut-row"><span class="shortcut-keys"><kbd>P</kbd></span><span>Print / Export to PDF</span></div>
         <div class="shortcut-row"><span class="shortcut-keys"><kbd>Esc</kbd></span><span>Close dialogs</span></div>

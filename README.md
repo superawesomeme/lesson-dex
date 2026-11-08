@@ -50,6 +50,7 @@ Built entirely with **strict Vanilla JavaScript (ES6+)**, **HTML5**, and **CSS3*
 | `←` or `PageUp` | Previous slide |
 | `Home` / `End` | Jump to first / last slide |
 | `F` | Toggle fullscreen mode |
+| `H` | Toggle UI Auto-hide / Pin bars |
 | `E` | Open / Close Lesson Builder Studio |
 | `P` | Print handouts / Save to PDF |
 | `?` | Show keyboard shortcuts modal |

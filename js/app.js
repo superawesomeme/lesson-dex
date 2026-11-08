@@ -22,7 +22,9 @@
     minimize: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h4v-4" /><path d="M3 3l6 6" /><path d="M5 15h4v4" /><path d="M3 21l6 -6" /><path d="M19 9h-4v-4" /><path d="M15 9l6 -6" /><path d="M19 15h-4v4" /><path d="M15 15l6 6" /></svg>`,
     book: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0" /><line x1="3" y1="6" x2="3" y2="19" /><line x1="12" y1="6" x2="12" y2="19" /><line x1="21" y1="6" x2="21" y2="19" /></svg>`,
     warning: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4v.01" /><path d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.76 2.75" /></svg>`,
-    circleCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" /></svg>`
+    circleCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M9 12l2 2l4 -4" /></svg>`,
+    pin: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4" /><line x1="9" y1="15" x2="4.5" y2="19.5" /><line x1="14.5" y1="4" x2="20" y2="9.5" /></svg>`,
+    pinOff: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="3" x2="21" y2="21" /><path d="M15 4.5l-3.249 3.249m-2.57 1.433l-2.181 .818l-1.5 1.5l7 7l1.5 -1.5l.82 -2.18m1.43 -2.568l3.25 -3.252" /><line x1="9" y1="15" x2="4.5" y2="19.5" /><line x1="14.5" y1="4" x2="20" y2="9.5" /></svg>`
   };
 
   // --------------------------------------------------------------------------
@@ -33,6 +35,9 @@
     currentIndex: 0,
     defaultLessonData: null,
     isFullscreen: false,
+    isPinned: false, // Default: UI auto-hides for cinema classroom stage
+    isMouseOverBars: false,
+    autoHideTimeout: null,
     interactiveStates: {
       revealedGaps: new Set(),
       totalGapsOnSlide: 0,
@@ -47,9 +52,12 @@
   // 2. DOM Elements Cache
   // --------------------------------------------------------------------------
   const DOM = {
-    // Header
+    // Header & Auto-hide
+    appHeader: document.getElementById('app-header'),
     lessonTitle: document.getElementById('header-lesson-title'),
     slideHeading: document.getElementById('header-slide-name'),
+    btnAutohideToggle: document.getElementById('btn-autohide-toggle'),
+    autohideIcon: document.getElementById('autohide-icon'),
     btnShortcuts: document.getElementById('btn-shortcuts'),
     btnPrint: document.getElementById('btn-print'),
     btnStudioToggle: document.getElementById('btn-studio-toggle'),
@@ -64,6 +72,7 @@
     stageNextBtn: document.getElementById('stage-next-btn'),
 
     // Progression Bar
+    progressionBar: document.getElementById('progression-bar'),
     slideCounter: document.getElementById('slide-counter'),
     slideTypeTag: document.getElementById('slide-type-tag'),
     progressionTrack: document.getElementById('progression-track'),
@@ -92,7 +101,48 @@
   };
 
   // --------------------------------------------------------------------------
-  // 3. Lesson Data Loader (Fetch with Embedded Fallback)
+  // 3. UI Auto-Hide Engine
+  // --------------------------------------------------------------------------
+  function resetAutoHideTimer() {
+    if (state.isPinned) {
+      document.body.classList.remove('bars-hidden');
+      return;
+    }
+
+    // Always reveal bars when mouse moves
+    document.body.classList.remove('bars-hidden');
+
+    if (state.autoHideTimeout) {
+      clearTimeout(state.autoHideTimeout);
+    }
+
+    // Schedule hide after 2.5s of inactivity if not hovering over UI chrome or modal
+    state.autoHideTimeout = setTimeout(() => {
+      const isModalOpen = !DOM.studioModal.classList.contains('hidden') || !DOM.shortcutsModal.classList.contains('hidden');
+      if (!state.isPinned && !state.isMouseOverBars && !isModalOpen) {
+        document.body.classList.add('bars-hidden');
+      }
+    }, 2500);
+  }
+
+  function togglePinUI() {
+    state.isPinned = !state.isPinned;
+    DOM.btnAutohideToggle.classList.toggle('is-active', state.isPinned);
+    DOM.autohideIcon.innerHTML = state.isPinned ? ICONS.pin : ICONS.pinOff;
+    DOM.btnAutohideToggle.setAttribute('title', state.isPinned ? 'UI Pinned (Click to enable Auto-hide)' : 'Toggle Auto-hide UI (H)');
+
+    if (state.isPinned) {
+      if (state.autoHideTimeout) clearTimeout(state.autoHideTimeout);
+      document.body.classList.remove('bars-hidden');
+      showToast('UI chrome pinned to screen', 'info');
+    } else {
+      showToast('Auto-hide enabled (Hides when idle)', 'info');
+      resetAutoHideTimer();
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 4. Lesson Data Loader (Fetch with Embedded Fallback)
   // --------------------------------------------------------------------------
   async function loadInitialLesson() {
     try {
@@ -121,14 +171,11 @@
     state.currentIndex = 0;
     resetInteractiveStates();
 
-    // Update Studio Editor content
     DOM.studioEditor.value = JSON.stringify(state.slides, null, 2);
 
-    // Build Progression Track & Print Sheets
     buildProgressionTrack();
     buildPrintSheets();
 
-    // Render First Slide
     renderCurrentSlide();
     showToast(`Lesson loaded (${state.slides.length} slides)`, 'success');
     return true;
@@ -144,7 +191,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 4. Navigation System
+  // 5. Navigation System
   // --------------------------------------------------------------------------
   function goToSlide(index) {
     if (index < 0 || index >= state.slides.length) return;
@@ -168,7 +215,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 5. Progression Track Rendering & UI Sync
+  // 6. Progression Track Rendering & UI Sync
   // --------------------------------------------------------------------------
   function buildProgressionTrack() {
     DOM.progressionTrack.innerHTML = '';
@@ -196,15 +243,12 @@
 
     if (!currentSlide) return;
 
-    // Counter badge and type tag (UK English)
     DOM.slideCounter.textContent = `Slide ${current + 1} of ${total}`;
     DOM.slideTypeTag.textContent = currentSlide.type;
 
-    // Header Slide title
     const titleText = currentSlide.title || currentSlide.heading || `Slide ${current + 1}`;
     DOM.slideHeading.textContent = `${current + 1}. ${titleText}`;
 
-    // Prev / Next button states
     const isFirst = current === 0;
     const isLast = current === total - 1;
 
@@ -214,7 +258,6 @@
     DOM.stageNextBtn.disabled = isLast;
     DOM.footerNextBtn.disabled = isLast;
 
-    // Update track steps active/visited classes
     const stepElements = DOM.progressionTrack.querySelectorAll('.track-step');
     stepElements.forEach((step, idx) => {
       step.classList.toggle('is-active', idx === current);
@@ -224,7 +267,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 6. Slide Render Engine (The 11 Layouts)
+  // 7. Slide Render Engine (The 11 Layouts)
   // Notes data is STRICTLY excluded from the DOM in Player Mode!
   // Content font size >= 22px for back-of-class visibility.
   // --------------------------------------------------------------------------
@@ -581,12 +624,10 @@
       toggleBtn.querySelector('.toggle-label').textContent = isComplete ? 'Hide All' : 'Reveal All';
     }
 
-    // Single Toggle Button: Eye to Reveal, Eye-Off to Reset
     toggleBtn.addEventListener('click', () => {
       const isComplete = state.interactiveStates.revealedGaps.size === state.interactiveStates.totalGapsOnSlide;
       
       if (isComplete) {
-        // Reset / Hide All
         state.interactiveStates.revealedGaps.clear();
         sentenceWrapper.querySelectorAll('.gap-blank').forEach(btn => {
           btn.classList.remove('revealed');
@@ -594,7 +635,6 @@
         });
         updateFillGapToggleState();
       } else {
-        // Reveal All
         tokens.filter(t => t.type === 'gap').forEach(tok => state.interactiveStates.revealedGaps.add(tok.index));
         sentenceWrapper.querySelectorAll('.gap-blank').forEach((btn, idx) => {
           const gapTok = tokens.filter(t => t.type === 'gap')[idx];
@@ -717,7 +757,6 @@
         sourceEl.classList.remove('dragging');
       });
 
-      // Touch / click-to-pair fallback
       sourceEl.addEventListener('click', () => {
         if (state.interactiveStates.matchedPairs.has(pair.id)) return;
         sourcesCol.querySelectorAll('.match-drag-item').forEach(el => el.style.borderColor = '');
@@ -968,7 +1007,6 @@
     `;
   }
 
-  // Fallback for custom layouts
   function renderUnknownSlide(slide, container) {
     container.innerHTML = `
       <header class="slide-header">
@@ -984,8 +1022,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 7. Print Mode Engine (@media print A4 Sheets + Teacher Notes)
-  // Notes are strictly revealed HERE for print reference!
+  // 8. Print Mode Engine (@media print A4 Sheets + Teacher Notes)
   // --------------------------------------------------------------------------
   function buildPrintSheets() {
     DOM.printContainer.innerHTML = '';
@@ -1089,7 +1126,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 8. Lesson Builder Studio (Maker Mode)
+  // 9. Lesson Builder Studio (Maker Mode)
   // --------------------------------------------------------------------------
   function openStudio() {
     DOM.studioEditor.value = JSON.stringify(state.slides, null, 2);
@@ -1139,7 +1176,7 @@
   function exportStudioJSON() {
     try {
       const jsonContent = DOM.studioEditor.value || JSON.stringify(state.slides, null, 2);
-      JSON.parse(jsonContent); // Validate
+      JSON.parse(jsonContent);
 
       const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8' });
       const url = URL.createObjectURL(blob);
@@ -1193,7 +1230,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 9. Fullscreen & Print Triggers
+  // 10. Fullscreen & Print Triggers
   // --------------------------------------------------------------------------
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
@@ -1221,7 +1258,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 10. Toast Notification System (No Emojis)
+  // 11. Toast Notification System
   // --------------------------------------------------------------------------
   function showToast(message, type = 'info') {
     const toast = document.createElement('div');
@@ -1272,10 +1309,12 @@
   }
 
   // --------------------------------------------------------------------------
-  // 11. Keyboard Shortcuts & Global Event Listeners
+  // 12. Keyboard Shortcuts & Global Event Listeners
   // --------------------------------------------------------------------------
   function initKeyboardListeners() {
     window.addEventListener('keydown', (e) => {
+      resetAutoHideTimer();
+
       if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
         if (e.key === 'Escape') closeStudio();
         return;
@@ -1305,6 +1344,11 @@
         case 'F':
           e.preventDefault();
           toggleFullscreen();
+          break;
+        case 'h':
+        case 'H':
+          e.preventDefault();
+          togglePinUI();
           break;
         case 'e':
         case 'E':
@@ -1340,6 +1384,17 @@
       DOM.stageCanvas.classList.toggle('is-fullscreen', isFull);
       DOM.stageWrapper.classList.toggle('is-fullscreen-wrapper', isFull);
     });
+
+    // Auto-hide mouse move & edge sensor listeners
+    window.addEventListener('mousemove', (e) => {
+      resetAutoHideTimer();
+    });
+
+    // Hover tracking for floating bars to avoid hiding while teacher is interacting
+    DOM.appHeader.addEventListener('mouseenter', () => { state.isMouseOverBars = true; });
+    DOM.appHeader.addEventListener('mouseleave', () => { state.isMouseOverBars = false; resetAutoHideTimer(); });
+    DOM.progressionBar.addEventListener('mouseenter', () => { state.isMouseOverBars = true; });
+    DOM.progressionBar.addEventListener('mouseleave', () => { state.isMouseOverBars = false; resetAutoHideTimer(); });
   }
 
   function initUIEventListeners() {
@@ -1350,6 +1405,7 @@
     DOM.footerNextBtn.addEventListener('click', nextSlide);
 
     // Header buttons
+    DOM.btnAutohideToggle.addEventListener('click', togglePinUI);
     DOM.btnFullscreen.addEventListener('click', toggleFullscreen);
     DOM.btnPrint.addEventListener('click', triggerPrint);
     DOM.btnStudioToggle.addEventListener('click', openStudio);
@@ -1366,7 +1422,6 @@
     // Shortcuts modal close
     DOM.shortcutsCloseBtn.addEventListener('click', () => DOM.shortcutsModal.classList.add('hidden'));
 
-    // Close modals on clicking overlay backdrop
     DOM.studioModal.addEventListener('click', (e) => {
       if (e.target === DOM.studioModal) closeStudio();
     });
@@ -1376,7 +1431,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 12. Embedded Fallback Data (Self-contained offline guarantee)
+  // 13. Embedded Fallback Data
   // --------------------------------------------------------------------------
   function getEmbeddedFallbackLesson() {
     return [
@@ -1569,12 +1624,13 @@
   }
 
   // --------------------------------------------------------------------------
-  // 13. Initialization Bootstrapper
+  // 14. Initialization Bootstrapper
   // --------------------------------------------------------------------------
   function init() {
     initKeyboardListeners();
     initUIEventListeners();
     loadInitialLesson();
+    resetAutoHideTimer();
   }
 
   if (document.readyState === 'loading') {
