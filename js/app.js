@@ -146,7 +146,15 @@
   // --------------------------------------------------------------------------
   async function loadInitialLesson() {
     try {
-      const response = await fetch('lesson.json');
+      // Cache-busting query and no-store policy to ensure browsers never serve stale cached lesson data
+      const cacheBuster = `?t=${Date.now()}`;
+      const response = await fetch(`lesson.json${cacheBuster}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
       }
